@@ -10,11 +10,11 @@ public class Bill {
     private String billNote;
     private String accountID;
     private Timestamp createDate;
-    private boolean billStatus;
+    private int billStatus;
 
     public Bill() {}
 
-    public Bill(String billID, int billTotalAmount, List<BillDetail> billDetailList, String billNote, String accountID, Timestamp createDate, boolean billStatus) {
+    public Bill(String billID, int billTotalAmount, List<BillDetail> billDetailList, String billNote, String accountID, Timestamp createDate, int billStatus) {
         this.billID = billID;
         this.billTotalAmount = billTotalAmount;
         this.billDetailList = billDetailList;
@@ -23,6 +23,8 @@ public class Bill {
         this.createDate = createDate;
         this.billStatus = billStatus;
     }
+
+
 
     public String getBillID() {
         return billID;
@@ -72,13 +74,6 @@ public class Bill {
         this.createDate = createDate;
     }
 
-    public boolean isBillStatus() {
-        return billStatus;
-    }
-
-    public void setBillStatus(boolean billStatus) {
-        this.billStatus = billStatus;
-    }
 
     @Override
     public String toString() {
@@ -89,7 +84,14 @@ public class Bill {
                 ", billNote='" + billNote + '\'' +
                 ", accountID='" + accountID + '\'' +
                 ", createDate=" + createDate +
-                ", billStatus=" + billStatus +
                 '}';
+    }
+
+    public int getBillStatus() {
+        return billStatus;
+    }
+
+    public void setBillStatus(int billStatus) {
+        this.billStatus = billStatus;
     }
 }
