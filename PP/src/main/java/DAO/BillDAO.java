@@ -83,7 +83,7 @@ public class BillDAO extends ConnectSQL {
 
             int row1 = st1.executeUpdate();
 
-            String sql2 = "INSERT INTO ChiTietHoaDonNhap (BillID, ProductID, Quantity, TotalPrice) VALUES(?,?,?,?)";
+            String sql2 = "INSERT INTO BIllDETAIL (BillID, ProductID, Quantity, TotalPrice) VALUES(?,?,?,?)";
             PreparedStatement st2 = con.prepareStatement(sql2);
             
             for (BillDetail chiTiet : bill.getBillDetailList()) {
