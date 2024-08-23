@@ -8,12 +8,12 @@ package UI.Main_Functional_Requirements;
  *
  * @author levan
  */
-public class Home_Dashboard extends javax.swing.JPanel {
+public class Main_Report extends javax.swing.JPanel {
 
     /**
      * Creates new form Dashboard
      */
-    public Home_Dashboard() {
+    public Main_Report() {
         initComponents();
     }
 
@@ -32,11 +32,11 @@ public class Home_Dashboard extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 649, Short.MAX_VALUE)
+            .addGap(0, 510, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 550, Short.MAX_VALUE)
+            .addGap(0, 326, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
