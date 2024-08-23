@@ -209,7 +209,7 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_Login_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Login_ActionPerformed
-          checkBranch();
+        Login_CheckBranch();
     }//GEN-LAST:event_btn_Login_ActionPerformed
 
     private void txt_UserName_KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_UserName_KeyPressed
@@ -224,7 +224,7 @@ public class Login extends javax.swing.JFrame {
         levanan.moreSmooth(txt_UserPassword_, txt_UserPassword_, btn_Login_, evt);
     }//GEN-LAST:event_btn_Login_KeyPressed
 
-    private void checkBranch(){
+    private void Login_CheckBranch(){
         // Lấy thông tin người dùng từ các ô nhập liệu
         userName = txt_UserName_.getText().trim();
         userPassword = txt_UserPassword_.getText().trim();

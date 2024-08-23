@@ -48,7 +48,6 @@ public class Nav_Help extends javax.swing.JDialog {
         setMaximumSize(new java.awt.Dimension(500, 550));
         setMinimumSize(new java.awt.Dimension(500, 550));
         setName("Help"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(500, 550));
         setType(java.awt.Window.Type.POPUP);
 
         jPanel1.setMaximumSize(new java.awt.Dimension(500, 550));

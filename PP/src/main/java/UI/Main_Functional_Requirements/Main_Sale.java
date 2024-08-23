@@ -231,6 +231,7 @@ public class Main_Sale extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        tbl_Product.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tbl_Product);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
