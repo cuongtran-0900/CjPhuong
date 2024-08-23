@@ -17,7 +17,8 @@ public class AccountDAO extends ConnectSQL {
             while (rs.next()) {
                 Account account = new Account(
                     rs.getString("ACCOUNTID"),
-                    rs.getString("ACCOUNTROLE")
+                    rs.getString("ACCOUNTROLE"),
+                    rs.getString("ACCOUNTPASS")
                 );
                 accountList.add(account);
             }
