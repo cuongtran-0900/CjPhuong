@@ -21,7 +21,7 @@ public class BillDAO extends ConnectSQL {
 
         try {
             String sql
-                    = "select B.billID, b.accountID,b.billTotalAmount,b.billNote,b.createDate,bd.productID,bd.quantity,bd.totalPrice,pr.productName,B.billStatus from Bill as B inner join BillDetail as BD on B.billID = BD.billID inner join Product as PR on PR.productID = BD.productID where b.billStatus = 1;";
+                    = "select B.billID, b.accountID,b.billTotalAmount,b.billNote,b.createDate,bd.productID,bd.quantity,bd.totalPrice,pr.productName,pr.productPrice,B.billStatus from Bill as B inner join BillDetail as BD on B.billID = BD.billID inner join Product as PR on PR.productID = BD.productID where b.billStatus = 1;";
             try (Statement st = con.createStatement(); ResultSet rs = st.executeQuery(sql)) {
                 billList.clear();
                 Bill currentBill = null;
@@ -82,9 +82,9 @@ public class BillDAO extends ConnectSQL {
 
             int row1 = st1.executeUpdate();
 
-            String sql2 = "INSERT INTO ChiTietHoaDonNhap (BillID, ProductID, Quantity, TotalPrice) VALUES(?,?,?,?)";
+            String sql2 = "INSERT INTO BIllDETAIL (BillID, ProductID, Quantity, TotalPrice) VALUES(?,?,?,?)";
             PreparedStatement st2 = con.prepareStatement(sql2);
-            
+
             for (BillDetail chiTiet : bill.getBillDetailList()) {
                 st2.setString(1, bill.getBillID());
                 st2.setString(2, chiTiet.getProductID());
@@ -92,7 +92,7 @@ public class BillDAO extends ConnectSQL {
                 st2.setInt(4, chiTiet.getTotalPrice());
                 st2.addBatch();
             }
-                st2.executeBatch();
+            st2.executeBatch();
 
             if (row1 > 0) {
                 JOptionPane.showMessageDialog(null, "Thêm thành công");
@@ -102,6 +102,50 @@ public class BillDAO extends ConnectSQL {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         }
         return -1;
+    }
+
+    public String CheckBillID() {
+        String mps = null;
+        try {
+            String sql = "SELECT TOP 1 billID FROM bill WHERE billID LIKE 'HD%' ORDER BY billID DESC";
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+
+            if (rs.next()) {
+                mps = rs.getString("billID");
+            }
+
+            rs.close();
+            st.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return mps;
+    }
+
+    public String NewBillID() {
+        String lastBillID = CheckBillID();
+
+        if (lastBillID == null || lastBillID.isEmpty()) {
+            return "HDA001";
+        } else {
+            // Lấy phần chữ và phần số
+            String prefix = lastBillID.substring(2, 3); // A, B, C...
+            int number = Integer.parseInt(lastBillID.substring(3, 6)); // 001, 002,...
+
+            if (number < 999) {
+                number++;
+            } else {
+                // Khi số đã đạt 999, chuyển sang chữ cái tiếp theo
+                prefix = String.valueOf((char) (prefix.charAt(0) + 1));
+                number = 1;
+            }
+
+            // Định dạng số về dạng 3 chữ số
+            String newNumber = String.format("%03d", number);
+            return "HD" + prefix + newNumber;
+        }
     }
 
 }

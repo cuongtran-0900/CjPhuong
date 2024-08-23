@@ -22,7 +22,7 @@ public class ProductDAO extends ConnectSQL {
                 Product product = new Product(
                     rs.getString("PRODUCTID"),
                     rs.getString("PRODUCTNAME"),
-                    rs.getInt("PRODUCTPRICE")
+                    rs.getInt("productPrice")
                 );
                 productList.add(product);
             }
