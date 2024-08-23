@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DecimalFormat;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -22,6 +23,7 @@ import javax.swing.table.TableRowSorter;
 
 public class LeVanAn {
     private JPanel currentPanel = null;
+    private DecimalFormat moneyFormat = new DecimalFormat("#,### đ");
     private final Color originalColor = new Color(255,178,10);
     private final Color hoverColor = new Color(214,152,7);
     private final Color clickColor = new Color(28,61,90);
@@ -89,7 +91,6 @@ public class LeVanAn {
             }
         }
     }
-
     
     // 3. Tạo hiệu ứng Hover, và Đánh dấu mục đang sử dụng
     public void setPanelEvents(JPanel... panels) {
@@ -147,5 +148,11 @@ public class LeVanAn {
             TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(defaultTableModel);
             jtable.setRowSorter(obj);
             obj.setRowFilter(RowFilter.regexFilter("(?i)" + txt.getText()));
+    }
+    
+    // 7. Chuyển đổi thành VND cho dễ nhìn nâng cao trải nghiệm
+    public String formatMoney(int... money){
+        String moneyFormating = moneyFormat.format(money);
+        return moneyFormating;
     }
 }
