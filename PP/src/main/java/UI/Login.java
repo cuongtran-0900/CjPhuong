@@ -250,7 +250,7 @@ public class Login extends javax.swing.JFrame {
         // Kiểm tra tên đăng nhập và mật khẩu
         if(userName.equalsIgnoreCase("a") && userPassword.equalsIgnoreCase("a")){
             JOptionPane.showMessageDialog(this, "Đăng nhập thành công", "Thành công", JOptionPane.INFORMATION_MESSAGE);
-            this.dispose(); // Đóng cửa sổ hiện tại
+            this.setVisible(false); // Đóng cửa sổ hiện tại
             new Home(userName).setVisible(true); // Mở cửa sổ chính
         } else {
             JOptionPane.showMessageDialog(this, "Sai tên chi nhánh hoặc mật khẩu \nYêu cầu nhập lại", "Lỗi", JOptionPane.ERROR_MESSAGE);

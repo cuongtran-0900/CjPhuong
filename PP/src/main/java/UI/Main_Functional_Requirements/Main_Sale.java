@@ -8,12 +8,12 @@ package UI.Main_Functional_Requirements;
  *
  * @author levan
  */
-public class Home_Report extends javax.swing.JPanel {
+public class Main_Sale extends javax.swing.JPanel {
 
     /**
      * Creates new form Dashboard
      */
-    public Home_Report() {
+    public Main_Sale() {
         initComponents();
     }
 
