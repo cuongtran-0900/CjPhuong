@@ -9,14 +9,11 @@ UI\Main_Functional_Requirements\Main_History$2.class
 UI\Main_Functional_Requirements\Main_Sale$5.class
 UI\Login$4.class
 MODEL\Bill.class
-UI\NewJFrame.class
 DAO\ConnectSQL.class
 UI\Home$5.class
-UI\Main_Functional_Requirements\Main_Sale$8.class
 UX\LeVanAn.class
 DAO\AccountDAO.class
 MODEL\BillDetail.class
-UI\NewJFrame$1.class
 UI\Main_Functional_Requirements\Main_Sale$1.class
 UI\Login.class
 MODEL\Product.class

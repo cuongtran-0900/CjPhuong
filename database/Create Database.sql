@@ -1,7 +1,7 @@
 -- Tao database
- create database pp;
+ -- create database pp;
 
-use pp;
+-- use pp;
 
 -- Tạo bảng Account
 CREATE TABLE Account (
@@ -15,6 +15,7 @@ CREATE TABLE Product (
     productID VARCHAR(10) PRIMARY KEY NOT NULL,
     productName NVARCHAR(50) NOT NULL,
     productPrice INT NOT NULL,
+	productImage NVARCHAR(50),
     productStatus BIT NOT NULL
 );
 
@@ -24,9 +25,9 @@ CREATE TABLE Bill (
     accountID VARCHAR(10) NOT NULL,
     billTotalAmount INT NULL,
     billNote NVARCHAR(255) NULL,
-    billStatus BIT NOT NULL,
-	billPayment BIT NOT NULL
-    createDate DATE NOT NULL
+	billPayment BIT NOT NULL,
+    createDate DATE NOT NULL,
+	billStatus BIT NOT NULL
 );
 
 -- Tạo bảng BillDetail
@@ -68,9 +69,9 @@ INSERT INTO Product (productID, productName, productPrice, productStatus) VALUES
 ('NU01', N'Nước sâm', 7000, 1);
 
 -- Thêm dữ liệu mẫu vào bảng Bill
-INSERT INTO Bill (billID, accountID, billTotalAmount, billNote, billStatus, createDate) VALUES 
-('HDA001', 'CN01', 75000, NULL, 1, '2023-08-17'),
-('HDA002', 'CN01', 60000, NULL, 1, '2023-08-18');
+INSERT INTO Bill (billID, accountID, billTotalAmount, billNote, billStatus, createDate, billPayment) VALUES 
+('HDA001', 'CN01', 75000, NULL, 1, '2023-08-17', 0),
+('HDA002', 'CN01', 60000, NULL, 1, '2023-08-18',0);
 
 -- Thêm dữ liệu mẫu vào bảng BillDetail
 INSERT INTO BillDetail (billID, productID, quantity, totalPrice) VALUES 

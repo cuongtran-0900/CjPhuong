@@ -10,19 +10,23 @@ public class Bill {
     private String billNote;
     private String accountID;
     private Timestamp createDate;
+    private int billpayment;
     private int billStatus;
 
     public Bill() {}
 
-    public Bill(String billID, int billTotalAmount, List<BillDetail> billDetailList, String billNote, String accountID, Timestamp createDate, int billStatus) {
+    public Bill(String billID, int billTotalAmount, List<BillDetail> billDetailList, String billNote, String accountID, Timestamp createDate, int billpayment, int billStatus) {
         this.billID = billID;
         this.billTotalAmount = billTotalAmount;
         this.billDetailList = billDetailList;
         this.billNote = billNote;
         this.accountID = accountID;
         this.createDate = createDate;
+        this.billpayment = billpayment;
         this.billStatus = billStatus;
     }
+
+
 
 
 
@@ -93,5 +97,13 @@ public class Bill {
 
     public void setBillStatus(int billStatus) {
         this.billStatus = billStatus;
+    }
+
+    public int getBillpayment() {
+        return billpayment;
+    }
+
+    public void setBillpayment(int billpayment) {
+        this.billpayment = billpayment;
     }
 }
