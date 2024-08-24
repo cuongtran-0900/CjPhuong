@@ -12,7 +12,6 @@ MODEL\Bill.class
 UI\Main_Functional_Requirements\Main_Report$1.class
 DAO\ConnectSQL.class
 UI\Home$5.class
-UI\Main_Functional_Requirements\Main_Sale$8.class
 UX\LeVanAn.class
 DAO\AccountDAO.class
 MODEL\BillDetail.class
