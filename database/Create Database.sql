@@ -1,7 +1,7 @@
 -- Tao database
- create database pp;
+ -- create database pp;
 
-use pp;
+-- use pp;
 
 -- Tạo bảng Account
 CREATE TABLE Account (
@@ -15,6 +15,7 @@ CREATE TABLE Product (
     productID VARCHAR(10) PRIMARY KEY NOT NULL,
     productName NVARCHAR(50) NOT NULL,
     productPrice INT NOT NULL,
+	productImage NVARCHAR(50),
     productStatus BIT NOT NULL
 );
 
@@ -24,8 +25,9 @@ CREATE TABLE Bill (
     accountID VARCHAR(10) NOT NULL,
     billTotalAmount INT NULL,
     billNote NVARCHAR(255) NULL,
-    billStatus BIT NOT NULL,
-    createDate DATE NOT NULL
+	billPayment BIT NOT NULL,
+    createDate DATE NOT NULL,
+	billStatus BIT NOT NULL
 );
 
 -- Tạo bảng BillDetail
@@ -55,21 +57,21 @@ INSERT INTO Account (accountID, accountRole,accountPass) VALUES
 
 -- Thêm dữ liệu mẫu vào bảng Product
 INSERT INTO Product (productID, productName, productPrice, productStatus) VALUES 
-('MC01', 'Bánh cuốn', 25000, 1),
-('MC02', 'Bánh ướt', 25000, 1),
-('MP01', 'Bánh tôm', 4000, 1),
-('MP02', 'Nem chua', 15000, 1),
-('MP03', 'Chả lụa', 3000, 1),
-('MP04', 'Chả chiên', 5000, 1),
-('MP05', 'Chả huế', 5000, 1),
-('MP06', 'Bánh ướt thêm', 5000, 1),
-('MP07', 'Bánh cuốn thêm', 5000, 1),
-('NU01', 'Nước sâm', 7000, 1);
+('MC01', N'Bánh cuốn', 25000, 1),
+('MC02', N'Bánh ướt', 25000, 1),
+('MP01', N'Bánh tôm', 4000, 1),
+('MP02', N'Nem chua', 15000, 1),
+('MP03', N'Chả lụa', 3000, 1),
+('MP04', N'Chả chiên', 5000, 1),
+('MP05', N'Chả huế', 5000, 1),
+('MP06', N'Bánh ướt thêm', 5000, 1),
+('MP07', N'Bánh cuốn thêm', 5000, 1),
+('NU01', N'Nước sâm', 7000, 1);
 
 -- Thêm dữ liệu mẫu vào bảng Bill
-INSERT INTO Bill (billID, accountID, billTotalAmount, billNote, billStatus, createDate) VALUES 
-('HDA001', 'CN01', 75000, NULL, 1, '2023-08-17'),
-('HDA002', 'CN01', 60000, NULL, 1, '2023-08-18');
+INSERT INTO Bill (billID, accountID, billTotalAmount, billNote, billStatus, createDate, billPayment) VALUES 
+('HDA001', 'CN01', 75000, NULL, 1, '2023-08-17', 0),
+('HDA002', 'CN01', 60000, NULL, 1, '2023-08-18',0);
 
 -- Thêm dữ liệu mẫu vào bảng BillDetail
 INSERT INTO BillDetail (billID, productID, quantity, totalPrice) VALUES 

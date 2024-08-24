@@ -209,7 +209,7 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_Login_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Login_ActionPerformed
-          checkBranch();
+        Login_CheckBranch();
     }//GEN-LAST:event_btn_Login_ActionPerformed
 
     private void txt_UserName_KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_UserName_KeyPressed
@@ -224,7 +224,7 @@ public class Login extends javax.swing.JFrame {
         levanan.moreSmooth(txt_UserPassword_, txt_UserPassword_, btn_Login_, evt);
     }//GEN-LAST:event_btn_Login_KeyPressed
 
-    private void checkBranch(){
+    private void Login_CheckBranch(){
         // Lấy thông tin người dùng từ các ô nhập liệu
         userName = txt_UserName_.getText().trim();
         userPassword = txt_UserPassword_.getText().trim();
@@ -250,7 +250,7 @@ public class Login extends javax.swing.JFrame {
         // Kiểm tra tên đăng nhập và mật khẩu
         if(userName.equalsIgnoreCase("a") && userPassword.equalsIgnoreCase("a")){
             JOptionPane.showMessageDialog(this, "Đăng nhập thành công", "Thành công", JOptionPane.INFORMATION_MESSAGE);
-            this.dispose(); // Đóng cửa sổ hiện tại
+            this.setVisible(false); // Đóng cửa sổ hiện tại
             new Home(userName).setVisible(true); // Mở cửa sổ chính
         } else {
             JOptionPane.showMessageDialog(this, "Sai tên chi nhánh hoặc mật khẩu \nYêu cầu nhập lại", "Lỗi", JOptionPane.ERROR_MESSAGE);

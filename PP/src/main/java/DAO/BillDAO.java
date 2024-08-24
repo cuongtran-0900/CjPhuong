@@ -9,7 +9,6 @@ import MODEL.Bill;
 import MODEL.BillDetail;
 import UI.Home;
 import java.sql.Statement;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -71,7 +70,7 @@ public class BillDAO extends ConnectSQL {
 
     public int save(Bill bill) {
         try {
-            String sql1 = "INSERT INTO BILL (BILLID, ACCOUNTID, BILLTOTALAMOUNT, BILLNOTE, CREATEDATE, BILLSTATUS) VALUES(?,?,?,?,?,?)";
+            String sql1 = "INSERT INTO BILL (BILLID, ACCOUNTID, BILLTOTALAMOUNT, BILLNOTE, CREATEDATE, BILLSTATUS, BILLPAYMENT) VALUES(?,?,?,?,?,?,?)";
             PreparedStatement st1 = con.prepareStatement(sql1);
 
             st1.setString(1, bill.getBillID());
@@ -80,6 +79,7 @@ public class BillDAO extends ConnectSQL {
             st1.setString(4, bill.getBillNote());
             st1.setDate(5, new java.sql.Date(bill.getCreateDate().getTime()));
             st1.setInt(6, 1);
+            st1.setInt(7, bill.getBillpayment());
 
             int row1 = st1.executeUpdate();
 
@@ -96,7 +96,6 @@ public class BillDAO extends ConnectSQL {
             st2.executeBatch();
 
             if (row1 > 0) {
-                JOptionPane.showMessageDialog(null, "Thêm thành công");
                 return row1;
             }
         } catch (SQLException ex) {

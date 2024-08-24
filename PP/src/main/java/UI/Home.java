@@ -5,6 +5,7 @@
 package UI;
 
 import UI.Main_Functional_Requirements.*;
+import UI.Extention_Functional.*;
 import UX.LeVanAn;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,15 +18,19 @@ import javax.swing.Timer;
  * @author levan
  */
 public class Home extends javax.swing.JFrame {
-    private final Home_Dashboard home_Dashboard = new Home_Dashboard();
-    private final Home_Report home_Report = new Home_Report();
-    private final Home_History home_History = new Home_History();
-    private final Home_Sale home_Sale = new Home_Sale();
+    private final Main_Dashboard home_Dashboard = new Main_Dashboard();
+    private final Main_Report home_Report = new Main_Report();
+    private final Main_History home_History = new Main_History();
+    private final Main_Sale home_Sale = new Main_Sale();
+    
+    private final Nav_Help nav_Help = new Nav_Help(this, true);
+    private final Nav_Notification nav_Notification = new Nav_Notification(this, true);
+    
     public LeVanAn levanan = new LeVanAn();
     private Timer timer;
     public Home(String userName) {
         initComponents();
-        setUpHome(userName);
+        Home_SetUp(userName);
     }
 
     @SuppressWarnings("unchecked")
@@ -33,27 +38,31 @@ public class Home extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jEditorPane1 = new javax.swing.JEditorPane();
         Header = new javax.swing.JPanel();
         SupNav = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        lbl_Out_ = new javax.swing.JLabel();
+        lbl_Help_ = new javax.swing.JLabel();
+        lbl_Notification_ = new javax.swing.JLabel();
         MainNav = new javax.swing.JPanel();
-        Dashboard_ = new javax.swing.JPanel();
+        pn_Dashboard_ = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
-        Report_ = new javax.swing.JPanel();
+        pn_Report_ = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        History_ = new javax.swing.JPanel();
+        pn_History_ = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         Orther = new javax.swing.JPanel();
         lbl_ShowBranch = new javax.swing.JLabel();
         lbl_ShowTime = new javax.swing.JLabel();
         lbl_ShowDate = new javax.swing.JLabel();
-        Sale_ = new javax.swing.JPanel();
+        pn_Sale_ = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         Main = new javax.swing.JPanel();
         Footter = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+
+        jScrollPane1.setViewportView(jEditorPane1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Trang chủ");
@@ -64,30 +73,51 @@ public class Home extends javax.swing.JFrame {
         SupNav.setBackground(new java.awt.Color(229, 237, 239));
         SupNav.setPreferredSize(new java.awt.Dimension(755, 31));
 
-        jLabel2.setText("Đăng xuất");
+        lbl_Out_.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Nav_Out.png"))); // NOI18N
+        lbl_Out_.setText("Đăng xuất");
+        lbl_Out_.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbl_Out_.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl_Out_MouseClicked(evt);
+            }
+        });
 
-        jLabel3.setText("Trợ giúp");
+        lbl_Help_.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Nav_Help.png"))); // NOI18N
+        lbl_Help_.setText("Trợ giúp");
+        lbl_Help_.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbl_Help_.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl_Help_MouseClicked(evt);
+            }
+        });
 
-        jLabel4.setText("Thông báo");
+        lbl_Notification_.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Nav_Notification.png"))); // NOI18N
+        lbl_Notification_.setText("Thông báo");
+        lbl_Notification_.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lbl_Notification_.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl_Notification_MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout SupNavLayout = new javax.swing.GroupLayout(SupNav);
         SupNav.setLayout(SupNavLayout);
         SupNavLayout.setHorizontalGroup(
             SupNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SupNavLayout.createSequentialGroup()
-                .addContainerGap(361, Short.MAX_VALUE)
-                .addComponent(jLabel4)
+                .addContainerGap(551, Short.MAX_VALUE)
+                .addComponent(lbl_Notification_)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
+                .addComponent(lbl_Help_)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
+                .addComponent(lbl_Out_)
                 .addGap(10, 10, 10))
         );
         SupNavLayout.setVerticalGroup(
             SupNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
-            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lbl_Out_, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+            .addComponent(lbl_Notification_, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lbl_Help_, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         Header.add(SupNav);
@@ -95,92 +125,95 @@ public class Home extends javax.swing.JFrame {
         MainNav.setPreferredSize(new java.awt.Dimension(755, 69));
         MainNav.setLayout(new javax.swing.BoxLayout(MainNav, javax.swing.BoxLayout.LINE_AXIS));
 
-        Dashboard_.setBackground(new java.awt.Color(255, 178, 10));
-        Dashboard_.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Dashboard_.setMaximumSize(new java.awt.Dimension(140, 69));
-        Dashboard_.setMinimumSize(new java.awt.Dimension(140, 69));
-        Dashboard_.setPreferredSize(new java.awt.Dimension(140, 69));
-        Dashboard_.addMouseListener(new java.awt.event.MouseAdapter() {
+        pn_Dashboard_.setBackground(new java.awt.Color(255, 178, 10));
+        pn_Dashboard_.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pn_Dashboard_.setMaximumSize(new java.awt.Dimension(165, 75));
+        pn_Dashboard_.setMinimumSize(new java.awt.Dimension(165, 75));
+        pn_Dashboard_.setPreferredSize(new java.awt.Dimension(165, 75));
+        pn_Dashboard_.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                Dashboard_MouseClicked(evt);
+                pn_Dashboard_MouseClicked(evt);
             }
         });
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Home_Dashboard.png"))); // NOI18N
         jLabel12.setText("Tổng Quan");
 
-        javax.swing.GroupLayout Dashboard_Layout = new javax.swing.GroupLayout(Dashboard_);
-        Dashboard_.setLayout(Dashboard_Layout);
-        Dashboard_Layout.setHorizontalGroup(
-            Dashboard_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+        javax.swing.GroupLayout pn_Dashboard_Layout = new javax.swing.GroupLayout(pn_Dashboard_);
+        pn_Dashboard_.setLayout(pn_Dashboard_Layout);
+        pn_Dashboard_Layout.setHorizontalGroup(
+            pn_Dashboard_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
         );
-        Dashboard_Layout.setVerticalGroup(
-            Dashboard_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        pn_Dashboard_Layout.setVerticalGroup(
+            pn_Dashboard_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
         );
 
-        MainNav.add(Dashboard_);
+        MainNav.add(pn_Dashboard_);
 
-        Report_.setBackground(new java.awt.Color(255, 178, 10));
-        Report_.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Report_.setMaximumSize(new java.awt.Dimension(140, 69));
-        Report_.setMinimumSize(new java.awt.Dimension(140, 69));
-        Report_.setPreferredSize(new java.awt.Dimension(140, 69));
-        Report_.addMouseListener(new java.awt.event.MouseAdapter() {
+        pn_Report_.setBackground(new java.awt.Color(255, 178, 10));
+        pn_Report_.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pn_Report_.setMaximumSize(new java.awt.Dimension(165, 75));
+        pn_Report_.setMinimumSize(new java.awt.Dimension(165, 75));
+        pn_Report_.setPreferredSize(new java.awt.Dimension(165, 75));
+        pn_Report_.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                Report_MouseClicked(evt);
+                pn_Report_MouseClicked(evt);
             }
         });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Home_Report.png"))); // NOI18N
         jLabel5.setText("Báo Cáo");
 
-        javax.swing.GroupLayout Report_Layout = new javax.swing.GroupLayout(Report_);
-        Report_.setLayout(Report_Layout);
-        Report_Layout.setHorizontalGroup(
-            Report_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+        javax.swing.GroupLayout pn_Report_Layout = new javax.swing.GroupLayout(pn_Report_);
+        pn_Report_.setLayout(pn_Report_Layout);
+        pn_Report_Layout.setHorizontalGroup(
+            pn_Report_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
         );
-        Report_Layout.setVerticalGroup(
-            Report_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        pn_Report_Layout.setVerticalGroup(
+            pn_Report_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
         );
 
-        MainNav.add(Report_);
+        MainNav.add(pn_Report_);
 
-        History_.setBackground(new java.awt.Color(255, 178, 10));
-        History_.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        History_.setMaximumSize(new java.awt.Dimension(140, 69));
-        History_.setMinimumSize(new java.awt.Dimension(140, 69));
-        History_.setPreferredSize(new java.awt.Dimension(140, 69));
-        History_.addMouseListener(new java.awt.event.MouseAdapter() {
+        pn_History_.setBackground(new java.awt.Color(255, 178, 10));
+        pn_History_.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pn_History_.setMaximumSize(new java.awt.Dimension(165, 75));
+        pn_History_.setMinimumSize(new java.awt.Dimension(165, 75));
+        pn_History_.setPreferredSize(new java.awt.Dimension(165, 75));
+        pn_History_.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                History_MouseClicked(evt);
+                pn_History_MouseClicked(evt);
             }
         });
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Home_History.png"))); // NOI18N
         jLabel6.setText("Lịch Sử");
 
-        javax.swing.GroupLayout History_Layout = new javax.swing.GroupLayout(History_);
-        History_.setLayout(History_Layout);
-        History_Layout.setHorizontalGroup(
-            History_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+        javax.swing.GroupLayout pn_History_Layout = new javax.swing.GroupLayout(pn_History_);
+        pn_History_.setLayout(pn_History_Layout);
+        pn_History_Layout.setHorizontalGroup(
+            pn_History_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
         );
-        History_Layout.setVerticalGroup(
-            History_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        pn_History_Layout.setVerticalGroup(
+            pn_History_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
         );
 
-        MainNav.add(History_);
+        MainNav.add(pn_History_);
 
         Orther.setBackground(new java.awt.Color(255, 178, 10));
         Orther.setMaximumSize(new java.awt.Dimension(9999, 69));
@@ -229,34 +262,35 @@ public class Home extends javax.swing.JFrame {
 
         MainNav.add(Orther);
 
-        Sale_.setBackground(new java.awt.Color(255, 178, 10));
-        Sale_.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Sale_.setMaximumSize(new java.awt.Dimension(140, 69));
-        Sale_.setMinimumSize(new java.awt.Dimension(140, 69));
-        Sale_.setPreferredSize(new java.awt.Dimension(140, 69));
-        Sale_.addMouseListener(new java.awt.event.MouseAdapter() {
+        pn_Sale_.setBackground(new java.awt.Color(255, 178, 10));
+        pn_Sale_.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pn_Sale_.setMaximumSize(new java.awt.Dimension(165, 75));
+        pn_Sale_.setMinimumSize(new java.awt.Dimension(165, 75));
+        pn_Sale_.setPreferredSize(new java.awt.Dimension(165, 75));
+        pn_Sale_.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                Sale_MouseClicked(evt);
+                pn_Sale_MouseClicked(evt);
             }
         });
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Home_Sale.png"))); // NOI18N
         jLabel7.setText("Bán Hàng");
 
-        javax.swing.GroupLayout Sale_Layout = new javax.swing.GroupLayout(Sale_);
-        Sale_.setLayout(Sale_Layout);
-        Sale_Layout.setHorizontalGroup(
-            Sale_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+        javax.swing.GroupLayout pn_Sale_Layout = new javax.swing.GroupLayout(pn_Sale_);
+        pn_Sale_.setLayout(pn_Sale_Layout);
+        pn_Sale_Layout.setHorizontalGroup(
+            pn_Sale_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
         );
-        Sale_Layout.setVerticalGroup(
-            Sale_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        pn_Sale_Layout.setVerticalGroup(
+            pn_Sale_Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
         );
 
-        MainNav.add(Sale_);
+        MainNav.add(pn_Sale_);
 
         Header.add(MainNav);
 
@@ -271,13 +305,13 @@ public class Home extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 51, 51));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Create by LeVanAn - TranQuocCuong");
+        jLabel1.setText("Create by TranQuocCuong - LeVanAn - HoNgocCamTien ");
 
         javax.swing.GroupLayout FootterLayout = new javax.swing.GroupLayout(Footter);
         Footter.setLayout(FootterLayout);
         FootterLayout.setHorizontalGroup(
             FootterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 692, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 802, Short.MAX_VALUE)
         );
         FootterLayout.setVerticalGroup(
             FootterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -289,24 +323,37 @@ public class Home extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void Dashboard_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Dashboard_MouseClicked
+    private void pn_Dashboard_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pn_Dashboard_MouseClicked
         levanan.changePanel(Main, home_Dashboard);
-    }//GEN-LAST:event_Dashboard_MouseClicked
+    }//GEN-LAST:event_pn_Dashboard_MouseClicked
 
-    private void Report_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Report_MouseClicked
+    private void pn_Report_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pn_Report_MouseClicked
         levanan.changePanel(Main, home_Report);
-    }//GEN-LAST:event_Report_MouseClicked
+    }//GEN-LAST:event_pn_Report_MouseClicked
 
-    private void History_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_History_MouseClicked
+    private void pn_History_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pn_History_MouseClicked
         levanan.changePanel(Main, home_History);
-    }//GEN-LAST:event_History_MouseClicked
+    }//GEN-LAST:event_pn_History_MouseClicked
 
-    private void Sale_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Sale_MouseClicked
+    private void pn_Sale_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pn_Sale_MouseClicked
         levanan.changePanel(Main, home_Sale);
-    }//GEN-LAST:event_Sale_MouseClicked
+    }//GEN-LAST:event_pn_Sale_MouseClicked
+
+    private void lbl_Out_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_Out_MouseClicked
+        this.setVisible(false);
+        new Login().setVisible(true);
+    }//GEN-LAST:event_lbl_Out_MouseClicked
+
+    private void lbl_Help_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_Help_MouseClicked
+        nav_Help.setVisible(true);
+    }//GEN-LAST:event_lbl_Help_MouseClicked
+
+    private void lbl_Notification_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_Notification_MouseClicked
+        nav_Notification.setVisible(true);
+    }//GEN-LAST:event_lbl_Notification_MouseClicked
 
     
-    private void setUpHome(String userName) {
+    private void Home_SetUp(String userName) {
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
 
         // Thiết lập tên chi nhánh
@@ -327,7 +374,7 @@ public class Home extends javax.swing.JFrame {
         timer.start();
 
         levanan.changePanel(Main, home_Dashboard);
-        levanan.setPanelEvents(Dashboard_, Report_, History_, Sale_);
+        levanan.setPanelEvents(pn_Dashboard_, pn_Report_, pn_History_, pn_Sale_);
     }
     
     /**
@@ -365,26 +412,28 @@ public class Home extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel Dashboard_;
     private javax.swing.JPanel Footter;
     private javax.swing.JPanel Header;
-    private javax.swing.JPanel History_;
     private javax.swing.JPanel Main;
     private javax.swing.JPanel MainNav;
     private javax.swing.JPanel Orther;
-    private javax.swing.JPanel Report_;
-    private javax.swing.JPanel Sale_;
     private javax.swing.JPanel SupNav;
+    private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbl_Help_;
+    private javax.swing.JLabel lbl_Notification_;
+    private javax.swing.JLabel lbl_Out_;
     private javax.swing.JLabel lbl_ShowBranch;
     private javax.swing.JLabel lbl_ShowDate;
     private javax.swing.JLabel lbl_ShowTime;
+    private javax.swing.JPanel pn_Dashboard_;
+    private javax.swing.JPanel pn_History_;
+    private javax.swing.JPanel pn_Report_;
+    private javax.swing.JPanel pn_Sale_;
     // End of variables declaration//GEN-END:variables
 }
