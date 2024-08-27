@@ -1,7 +1,7 @@
 -- Tao database
- -- create database pp;
+create database pp;
 
--- use pp;
+use pp;
 
 -- Tạo bảng Account
 CREATE TABLE Account (
@@ -39,21 +39,12 @@ CREATE TABLE BillDetail (
     PRIMARY KEY (billID, productID)
 );
 
--- Thêm các khóa ngoại sau khi tạo bảng
-ALTER TABLE Bill
-ADD CONSTRAINT fk_accountID FOREIGN KEY (accountID) REFERENCES Account(accountID);
-
-ALTER TABLE BillDetail
-ADD CONSTRAINT fk_billID FOREIGN KEY (billID) REFERENCES Bill(billID);
-
-ALTER TABLE BillDetail
-ADD CONSTRAINT fk_productID FOREIGN KEY (productID) REFERENCES Product(productID);
 
 INSERT INTO Account (accountID, accountRole,accountPass) VALUES 
-('CN01', 'Sales','0123456789'),
-('CN02', 'Sales','0123456789'),
-('CN03', 'Sales','0123456789'),
-('admin', 'Manager','0123456789');
+('CN01', 'Sale','CN1'),
+('CN02', 'Sale','CN2'),
+('CN03', 'Sale','CN3'),
+('NTBP', 'Manage','0765295162');
 
 -- Thêm dữ liệu mẫu vào bảng Product
 INSERT INTO Product (productID, productName, productPrice, productStatus) VALUES 
@@ -70,8 +61,8 @@ INSERT INTO Product (productID, productName, productPrice, productStatus) VALUES
 
 -- Thêm dữ liệu mẫu vào bảng Bill
 INSERT INTO Bill (billID, accountID, billTotalAmount, billNote, billStatus, createDate, billPayment) VALUES 
-('HDA001', 'CN01', 75000, NULL, 1, '2023-08-17', 0),
-('HDA002', 'CN01', 60000, NULL, 1, '2023-08-18',0);
+('HDA001', 'CN01', 75000, NULL, 1, '2024-08-26', 0),
+('HDA002', 'CN01', 60000, NULL, 1, '2024-08-27',0);
 
 -- Thêm dữ liệu mẫu vào bảng BillDetail
 INSERT INTO BillDetail (billID, productID, quantity, totalPrice) VALUES 
@@ -79,3 +70,13 @@ INSERT INTO BillDetail (billID, productID, quantity, totalPrice) VALUES
 ('HDA001', 'MC02', 1, 25000),
 ('HDA002', 'MC01', 2, 50000),
 ('HDA002', 'MP01', 3, 10000);
+
+-- Thêm các khóa ngoại sau khi tạo bảng
+ALTER TABLE Bill
+ADD CONSTRAINT fk_accountID FOREIGN KEY (accountID) REFERENCES Account(accountID);
+
+ALTER TABLE BillDetail
+ADD CONSTRAINT fk_billID FOREIGN KEY (billID) REFERENCES Bill(billID);
+
+ALTER TABLE BillDetail
+ADD CONSTRAINT fk_productID FOREIGN KEY (productID) REFERENCES Product(productID);
