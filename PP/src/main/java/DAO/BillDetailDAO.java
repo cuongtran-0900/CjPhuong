@@ -35,4 +35,27 @@ public class BillDetailDAO extends DatabaseConnection {
         }
         return billDetailList;
     }
+    public List<BillDetail> loadAllBillDetail() {
+        List<BillDetail> billDetailList = new ArrayList<>();
+        String query = "SELECT bd.BILLID, p.PRODUCTID, p.PRODUCTNAME, p.PRODUCTPRICE, bd.QUANTITY, bd.TOTALPRICE " +
+                       "FROM BILLDETAIL bd " +
+                       "INNER JOIN PRODUCT p ON bd.PRODUCTID = p.PRODUCTID";
+        try (PreparedStatement ps = con.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                BillDetail billDetail = new BillDetail(
+                    rs.getString("BILLID"),
+                    rs.getString("PRODUCTID"),
+                    rs.getString("PRODUCTNAME"),
+                    rs.getInt("PRODUCTPRICE"),
+                    rs.getInt("QUANTITY"),
+                    rs.getInt("TOTALPRICE")
+                );
+                billDetailList.add(billDetail);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return billDetailList;
+    }
 }

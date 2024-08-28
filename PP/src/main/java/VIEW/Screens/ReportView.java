@@ -621,7 +621,7 @@ public class ReportView extends javax.swing.JPanel {
         Report_SetUp();
     }//GEN-LAST:event_cld_SelectDatePropertyChange
 
-    // Hiển thị ngày được chọn
+    // Hiển thị ngày được chọn ở lịch
     private void Report_SetUp() {
         // Lấy ngày hiện tại
         Calendar today = Calendar.getInstance();

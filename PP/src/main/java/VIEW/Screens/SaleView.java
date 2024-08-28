@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.event.TableModelEvent;
 import UX.LeVanAn;
+import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
@@ -330,12 +331,15 @@ public final class SaleView extends javax.swing.JPanel {
         add(jLabel6, gridBagConstraints);
 
         pn_Product.setBackground(new java.awt.Color(28, 61, 90));
+        pn_Product.setMaximumSize(new java.awt.Dimension(380, 540));
+        pn_Product.setMinimumSize(new java.awt.Dimension(380, 540));
+        pn_Product.setPreferredSize(new java.awt.Dimension(380, 540));
 
         javax.swing.GroupLayout pn_ProductLayout = new javax.swing.GroupLayout(pn_Product);
         pn_Product.setLayout(pn_ProductLayout);
         pn_ProductLayout.setHorizontalGroup(
             pn_ProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 488, Short.MAX_VALUE)
+            .addGap(0, 484, Short.MAX_VALUE)
         );
         pn_ProductLayout.setVerticalGroup(
             pn_ProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -347,11 +351,12 @@ public final class SaleView extends javax.swing.JPanel {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridheight = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weightx = 0.2;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
         add(pn_Product, gridBagConstraints);
 
         pn_Pay.setBackground(new java.awt.Color(28, 61, 90));
+        pn_Pay.setMaximumSize(new java.awt.Dimension(378, 353));
         pn_Pay.setLayout(new java.awt.GridBagLayout());
 
         txt_TotalAmount.setBackground(new java.awt.Color(255, 255, 255));
@@ -537,12 +542,12 @@ public final class SaleView extends javax.swing.JPanel {
         tbl_Cart.setAutoCreateRowSorter(true);
         tbl_Cart.setBackground(new java.awt.Color(255, 192, 57));
         tbl_Cart.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, null, java.awt.Color.darkGray, java.awt.Color.darkGray));
-        tbl_Cart.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        tbl_Cart.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         tbl_Cart.setForeground(new java.awt.Color(255, 255, 255));
         tbl_Cart.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"MC001", "Bánh cuốn", "25,000đ", "2", "50,000đ"},
-                {"MC002", "Bánh ướt", "25,000đ", "1", "25,000đ"}
+                {"MC002", "Bánh ướt", "250,000đ", "1", "25,000đ"}
             },
             new String [] {
                 "Mã Món Ăn", "Tên Món", "Đơn Giá", "Số Lượng", "Thành Tiền"
@@ -558,12 +563,37 @@ public final class SaleView extends javax.swing.JPanel {
         });
         tbl_Cart.setGridColor(new java.awt.Color(28, 61, 90));
         tbl_Cart.setName(""); // NOI18N
-        tbl_Cart.setRowHeight(25);
+        tbl_Cart.setRowHeight(45);
         tbl_Cart.setSelectionBackground(new java.awt.Color(200, 136, 0));
         tbl_Cart.setSelectionForeground(new java.awt.Color(255, 255, 255));
         tbl_Cart.setShowHorizontalLines(true);
         tbl_Cart.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tbl_Cart);
+        if (tbl_Cart.getColumnModel().getColumnCount() > 0) {
+            tbl_Cart.getColumnModel().getColumn(0).setMinWidth(75);
+            tbl_Cart.getColumnModel().getColumn(0).setPreferredWidth(75);
+            tbl_Cart.getColumnModel().getColumn(0).setMaxWidth(75);
+            tbl_Cart.getColumnModel().getColumn(2).setMinWidth(100);
+            tbl_Cart.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tbl_Cart.getColumnModel().getColumn(2).setMaxWidth(100);
+            tbl_Cart.getColumnModel().getColumn(3).setMinWidth(75);
+            tbl_Cart.getColumnModel().getColumn(3).setPreferredWidth(75);
+            tbl_Cart.getColumnModel().getColumn(3).setMaxWidth(75);
+            tbl_Cart.getColumnModel().getColumn(4).setMinWidth(100);
+            tbl_Cart.getColumnModel().getColumn(4).setPreferredWidth(100);
+            tbl_Cart.getColumnModel().getColumn(4).setMaxWidth(100);
+        }
+        // Khai báo và khởi tạo centerRenderer
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(javax.swing.JLabel.CENTER);
+        // Đặt renderer cho tất cả các cột để căn giữa
+        for (int i = 0; i < tbl_Cart.getColumnModel().getColumnCount(); i++) {
+            tbl_Cart.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+        // Khai báo và khởi tạo leftRenderer cho cột thứ 2 (index 1)
+        DefaultTableCellRenderer leftRenderer = new DefaultTableCellRenderer();
+        leftRenderer.setHorizontalAlignment(javax.swing.JLabel.LEFT);
+        tbl_Cart.getColumnModel().getColumn(1).setCellRenderer(leftRenderer);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;

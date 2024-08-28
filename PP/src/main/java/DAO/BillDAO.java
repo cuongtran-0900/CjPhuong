@@ -20,8 +20,8 @@ public class BillDAO extends DatabaseConnection {
                          "B.billStatus " +
                          "FROM Bill AS B " +
                          "INNER JOIN BillDetail AS BD ON B.billID = BD.billID " +
-                         "INNER JOIN Product AS PR ON PR.productID = BD.productID " +
-                         "WHERE B.billStatus = 1;";
+                         "INNER JOIN Product AS PR ON PR.productID = BD.productID " + 
+                         "ORDER BY B.createDate DESC";
 
             try (Statement st = con.createStatement(); ResultSet rs = st.executeQuery(sql)) {
                 billList.clear();

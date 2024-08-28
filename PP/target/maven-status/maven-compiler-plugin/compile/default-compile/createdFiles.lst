@@ -1,6 +1,7 @@
 VIEW\Home$2.class
 DAO\BillDetailDAO.class
 VIEW\Screens\HistoryView$1.class
+VIEW\Screens\HistoryView$8.class
 VIEW\Login$3.class
 VIEW\Screens\SaleView$2.class
 MODEL\Account.class
@@ -8,6 +9,7 @@ VIEW\Screens\ReportView$2.class
 VIEW\Screens\ReportView$6.class
 VIEW\Screens\DashboardView.class
 VIEW\Home$5.class
+VIEW\Screens\HistoryView$5.class
 DAO\DatabaseConnection.class
 VIEW\Components\NavNotification.class
 VIEW\Screens\SaleView$5.class
@@ -20,8 +22,10 @@ VIEW\Screens\SaleView.class
 VIEW\Screens\ReportView$5.class
 VIEW\Home$1.class
 VIEW\Login$2.class
+VIEW\Screens\HistoryView$7.class
 UX\LeVanAn.class
 VIEW\Screens\SaleView$4.class
+VIEW\Screens\HistoryView$4.class
 DAO\AccountDAO.class
 MODEL\BillDetail.class
 VIEW\Login.class
@@ -29,6 +33,7 @@ VIEW\Screens\SaleView$1.class
 MODEL\Product.class
 VIEW\Screens\SaleView$7.class
 VIEW\Screens\HistoryView$3.class
+VIEW\Screens\HistoryView$6.class
 VIEW\Login$1.class
 VIEW\Home$4.class
 DAO\ProductDAO.class

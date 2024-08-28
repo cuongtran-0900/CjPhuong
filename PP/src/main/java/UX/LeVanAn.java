@@ -23,7 +23,7 @@ import javax.swing.table.TableRowSorter;
 
 public class LeVanAn {
     private JPanel currentPanel = null;
-    private DecimalFormat moneyFormat = new DecimalFormat("#,### đ");
+    private DecimalFormat moneyFormat = new DecimalFormat("#,###đ");
     private final Color originalColor = new Color(255,178,10);
     private final Color hoverColor = new Color(214,152,7);
     private final Color clickColor = new Color(28,61,90);
@@ -144,15 +144,36 @@ public class LeVanAn {
     
     // 6. Đưa vào keyrelease để tối ưu hóa việc tìm kiếm
     public void filterDataByTableToTextField(JTable jtable, JTextField txt) {
-            DefaultTableModel defaultTableModel = (DefaultTableModel) jtable.getModel();
-            TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(defaultTableModel);
-            jtable.setRowSorter(obj);
-            obj.setRowFilter(RowFilter.regexFilter("(?i)" + txt.getText()));
+        DefaultTableModel defaultTableModel = (DefaultTableModel) jtable.getModel();
+            TableRowSorter<DefaultTableModel> rowSorter = new TableRowSorter<>(defaultTableModel);
+            jtable.setRowSorter(rowSorter);
+
+            String searchText = txt.getText();
+            if (searchText.trim().isEmpty()) {
+                // Xóa bộ lọc khi văn bản tìm kiếm trống
+                rowSorter.setRowFilter(null);
+            } else {
+                // Thêm bộ lọc để tìm kiếm không phân biệt chữ hoa chữ thường
+                rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchText));
+            }
     }
     
     // 7. Chuyển đổi thành VND cho dễ nhìn nâng cao trải nghiệm
-    public String formatMoney(int... money){
-        String moneyFormating = moneyFormat.format(money);
-        return moneyFormating;
+    public String formatMoney(Object money, int choice) {
+        if (choice == 1) {
+            // Định dạng số tiền thành chuỗi có dấu phân cách hàng nghìn
+            String moneyFormatted = moneyFormat.format((int) money);
+            return moneyFormatted;
+        } else if (choice == 0) {
+            try {
+                // Bỏ dấu phân cách hàng nghìn và ký hiệu "đ"
+                String moneyStr = money.toString().replaceAll("[,đ]", "");
+                return moneyStr;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return null;
     }
 }
