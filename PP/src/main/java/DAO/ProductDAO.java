@@ -6,12 +6,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import MODEL.Product;
-import UI.Home;
+import VIEW.Home;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-public class ProductDAO extends ConnectSQL {
+public class ProductDAO extends DatabaseConnection {
             List<Product> productList = new ArrayList<>();
 
     public List<Product> loadAllProductData() {

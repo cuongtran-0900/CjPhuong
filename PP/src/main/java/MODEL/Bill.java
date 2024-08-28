@@ -26,10 +26,6 @@ public class Bill {
         this.billStatus = billStatus;
     }
 
-
-
-
-
     public String getBillID() {
         return billID;
     }
