@@ -1,48 +1,59 @@
 package DAO;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import MODEL.Bill;
-import MODEL.BillDetail;
-import UI.Home;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
+import MODEL.Bill;
+import MODEL.BillDetail;
+import VIEW.Home;
 
-public class BillDAO extends ConnectSQL {
+public class BillDAO extends DatabaseConnection {
 
     List<Bill> billList = new ArrayList<>();
 
     public List<Bill> loadAllBillData() {
-
         try {
-            String sql
-                    = "select B.billID, b.accountID,b.billTotalAmount,b.billNote,b.createDate,bd.productID,bd.quantity,bd.totalPrice,pr.productName,pr.productPrice,B.billStatus from Bill as B inner join BillDetail as BD on B.billID = BD.billID inner join Product as PR on PR.productID = BD.productID where b.billStatus = 1;";
+            String sql = "SELECT B.billID, B.accountID, B.billTotalAmount, B.billNote, B.createDate, " +
+                         "B.billPayment, BD.productID, BD.quantity, BD.totalPrice, PR.productName, PR.productPrice, " +
+                         "B.billStatus " +
+                         "FROM Bill AS B " +
+                         "INNER JOIN BillDetail AS BD ON B.billID = BD.billID " +
+                         "INNER JOIN Product AS PR ON PR.productID = BD.productID " + 
+                         "ORDER BY B.createDate DESC";
+
             try (Statement st = con.createStatement(); ResultSet rs = st.executeQuery(sql)) {
                 billList.clear();
                 Bill currentBill = null;
+                String lastBillID = null;
+
                 while (rs.next()) {
-                    // Kiểm tra nếu hóa đơn nhập mới{
-                    currentBill = new Bill();
-                    currentBill.setBillID(rs.getString("BillID"));
-                    currentBill.setBillNote(rs.getString("BillNote"));
-                    currentBill.setBillTotalAmount(rs.getInt("BillTotalAmount"));
-                    currentBill.setCreateDate(rs.getTimestamp("CreateDate"));
-                    currentBill.setBillStatus(rs.getInt("billStatus"));
-                    currentBill.setBillDetailList(new ArrayList<>()); // Khởi tạo danh sách chi tiết hóa đơn
-                    billList.add(currentBill);
-                    // Thêm chi tiết hóa đơn vào danh sách của hóa đơn nhập hiện tại
-                    BillDetail chiTiet = new BillDetail();
-                    chiTiet.setProductID(rs.getString("ProductID"));
-                    chiTiet.setProductName(rs.getString("ProductName"));
-                    chiTiet.setProductPrice(rs.getInt("ProductPrice"));
-                    chiTiet.setQuantity(rs.getInt("Quantity"));
-                    chiTiet.setTotalPrice(rs.getInt("TotalPrice"));
-                    currentBill.getBillDetailList().add(chiTiet);
+                    String billID = rs.getString("billID");
+
+                    // Kiểm tra nếu đang xử lý một hóa đơn mới
+                    if (!billID.equals(lastBillID)) {
+                        currentBill = new Bill();
+                        currentBill.setBillID(billID);
+                        currentBill.setAccountID(rs.getString("accountID"));
+                        currentBill.setBillTotalAmount(rs.getInt("billTotalAmount"));
+                        currentBill.setBillNote(rs.getString("billNote"));
+                        currentBill.setCreateDate(rs.getTimestamp("createDate"));
+                        currentBill.setBillpayment(rs.getInt("billPayment"));  // Set giá trị billPayment
+                        currentBill.setBillStatus(rs.getInt("billStatus"));
+                        currentBill.setBillDetailList(new ArrayList<>());  // Khởi tạo danh sách chi tiết hóa đơn
+                        billList.add(currentBill);
+                        lastBillID = billID;
+                    }
+
+                    // Thêm chi tiết hóa đơn vào danh sách của hóa đơn hiện tại
+                    BillDetail billDetail = new BillDetail();
+                    billDetail.setProductID(rs.getString("productID"));
+                    billDetail.setProductName(rs.getString("productName"));
+                    billDetail.setProductPrice(rs.getInt("productPrice"));
+                    billDetail.setQuantity(rs.getInt("quantity"));
+                    billDetail.setTotalPrice(rs.getInt("totalPrice"));
+                    currentBill.getBillDetailList().add(billDetail);
                 }
             }
 
@@ -78,8 +89,8 @@ public class BillDAO extends ConnectSQL {
             st1.setInt(3, bill.getBillTotalAmount());
             st1.setString(4, bill.getBillNote());
             st1.setDate(5, new java.sql.Date(bill.getCreateDate().getTime()));
-            st1.setInt(6, 1);
-            st1.setInt(7, bill.getBillpayment());
+            st1.setInt(6, bill.getBillStatus());
+            st1.setInt(7, bill.getBillpayment());  // Lưu giá trị billPayment
 
             int row1 = st1.executeUpdate();
 
@@ -147,5 +158,4 @@ public class BillDAO extends ConnectSQL {
             return "HD" + prefix + newNumber;
         }
     }
-
 }
