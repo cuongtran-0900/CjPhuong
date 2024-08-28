@@ -21,6 +21,8 @@ public class HistoryView extends javax.swing.JPanel {
     
     private final Date today = Calendar.getInstance().getTime();
     
+
+    
     public HistoryView(String branchName) {
         initComponents();
         loadBillList();
@@ -81,7 +83,7 @@ public class HistoryView extends javax.swing.JPanel {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
+                java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, true
@@ -555,13 +557,16 @@ public class HistoryView extends javax.swing.JPanel {
         String selectedDateStr = (selectedDate != null) ? sdf.format(selectedDate) : null;
 
         int count = 1;
+        String CountFormat = "";
         for (Bill bill : billList) {
+            
             String billDateStr = sdf.format(bill.getCreateDate());
             String paymentType = (bill.getBillpayment() == 0) ? "Chuyển khoản" : "Tiền mặt";
 
             if (choice == 1 || (selectedDateStr != null && billDateStr.equals(selectedDateStr) && choice == 0)) {
                 Object[] rowData = new Object[]{
-                    count++,
+                    
+                    CountFormat = String.format("%02d", count),
                     bill.getBillID(),
                     paymentType,
                     bill.getCreateDate(),
@@ -569,6 +574,7 @@ public class HistoryView extends javax.swing.JPanel {
                     bill.getBillStatus() != 0
                 };
                 model.addRow(rowData);
+                count++;
             }
         }
         tbl_ShowAllBill_.setModel(model);
@@ -582,7 +588,9 @@ public class HistoryView extends javax.swing.JPanel {
 
         List<BillDetail> billDetails = billDetailDAO.loadBillDetailByBillID(billID);
         int count = 1;
+        
         for (BillDetail detail : billDetails) {
+            
             Object[] rowData = new Object[]{
                 count++,
                 detail.getProductName(),
