@@ -607,7 +607,13 @@ public final class Main_Sale extends javax.swing.JPanel {
 
     private void txt_CustomerCashKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_CustomerCashKeyReleased
         // TODO add your handling code here:
-        int cashchange = Integer.parseInt(txt_CustomerCash.getText()) - UndomoneyFormat(txt_TotalAmount.getText());
+        String customerCash = "0";
+        if(txt_CustomerCash.getText().isBlank()){
+            customerCash = "0";
+        } else {
+            customerCash = txt_CustomerCash.getText();
+        }
+        int cashchange = Integer.parseInt(customerCash) - UndomoneyFormat(txt_TotalAmount.getText());
         txt_CashChange.setText(moneyFormat.format(cashchange));
     }//GEN-LAST:event_txt_CustomerCashKeyReleased
 
