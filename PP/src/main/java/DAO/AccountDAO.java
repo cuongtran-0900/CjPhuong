@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import MODEL.Account;
 
-public class AccountDAO extends ConnectSQL {
+public class AccountDAO extends DatabaseConnection {
     
     public List<Account> loadAllAccountData() {
         List<Account> accountList = new ArrayList<>();
