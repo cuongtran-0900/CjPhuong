@@ -16,13 +16,14 @@ import javax.swing.table.DefaultTableModel;
 public class HistoryView extends javax.swing.JPanel {
     private final BillDAO billDAO = new BillDAO();
     private final BillDetailDAO billDetailDAO = new BillDetailDAO();    
-    private final List<Bill> billList = billDAO.loadAllBillData();
+    private List<Bill> billList;
     private final LeVanAn levanan = new LeVanAn();
     
     private final Date today = Calendar.getInstance().getTime();
     
     public HistoryView(String branchName) {
         initComponents();
+        loadBillList();
         if(tbl_ShowAllBill_.getRowCount() == 0){
             sp_SearchBill_.setEnabled(false);
             sp_SearchBill_.setValue(0);
@@ -62,6 +63,8 @@ public class HistoryView extends javax.swing.JPanel {
         jScrollPane1.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(0, 0, 0)));
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane1.setColumnHeaderView(null);
+        jScrollPane1.setMaximumSize(new java.awt.Dimension(454, 404));
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(454, 404));
         jScrollPane1.setRowHeaderView(null);
 
         tbl_ShowAllBill_.setAutoCreateRowSorter(true);
@@ -162,6 +165,7 @@ public class HistoryView extends javax.swing.JPanel {
         txt_SearchBill_.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         txt_SearchBill_.setForeground(new java.awt.Color(255, 255, 255));
         txt_SearchBill_.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        txt_SearchBill_.setMaximumSize(new java.awt.Dimension(64, 28));
         txt_SearchBill_.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txt_SearchBill_KeyReleased(evt);
@@ -196,6 +200,7 @@ public class HistoryView extends javax.swing.JPanel {
         cbx_SearchBill_.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         cbx_SearchBill_.setForeground(new java.awt.Color(255, 255, 255));
         cbx_SearchBill_.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hôm nay", "Hôm qua", "Tất cả" }));
+        cbx_SearchBill_.setMaximumSize(new java.awt.Dimension(100, 26));
         cbx_SearchBill_.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbx_SearchBill_ActionPerformed(evt);
@@ -244,6 +249,8 @@ public class HistoryView extends javax.swing.JPanel {
 
         jScrollPane2.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(0, 0, 0)));
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane2.setMaximumSize(new java.awt.Dimension(454, 404));
+        jScrollPane2.setMinimumSize(new java.awt.Dimension(454, 404));
         jScrollPane2.setRowHeaderView(null);
 
         tbl_ShowAllBillDetail.setBackground(new java.awt.Color(255, 192, 57));
@@ -331,6 +338,7 @@ public class HistoryView extends javax.swing.JPanel {
         BillDetail.add(lbl_TitleBillDetail, gridBagConstraints);
 
         sp_SearchBill_.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        sp_SearchBill_.setMaximumSize(new java.awt.Dimension(64, 28));
         sp_SearchBill_.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 sp_SearchBill_StateChanged(evt);
@@ -392,9 +400,13 @@ public class HistoryView extends javax.swing.JPanel {
 
     private void tbl_ShowAllBill_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_ShowAllBill_MouseClicked
         updateBillDetails();
+        updateTotalMoneyLabel();
     }//GEN-LAST:event_tbl_ShowAllBill_MouseClicked
     
-    
+    // Luôn có dữ liệu mới nhất trên database
+    private void loadBillList() {
+        billList = billDAO.loadAllBillData();
+    }
     
     // Cập nhật thông tin chi tiết hóa đơn khi người dùng chọn hóa đơn trong bảng
     private void updateBillDetails() {
@@ -435,18 +447,16 @@ public class HistoryView extends javax.swing.JPanel {
     private void updateCalendar() {
         Date selectedDate = cld_SearchBill_.getDate();
         if (selectedDate == null) {
-            selectedDate = new Date(); // Nếu không chọn ngày, mặc định là hôm nay
+            selectedDate = new Date();
         }
 
         Calendar today = Calendar.getInstance();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(selectedDate);
 
-        // Định dạng ngày để so sánh
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         String formattedDate = sdf.format(selectedDate);
 
-        // Kiểm tra ngày chọn
         if (isToday(calendar, today)) {
             lbl_TitleBill.setText("Hóa Đơn Của Ngày Hôm Nay");
             cbx_SearchBill_.setSelectedIndex(0);
@@ -458,10 +468,8 @@ public class HistoryView extends javax.swing.JPanel {
             cbx_SearchBill_.setSelectedIndex(-1);
         }
 
-        // Tải dữ liệu hóa đơn theo ngày
         loadBillDataByDate(selectedDate, 0);
 
-        // Điều chỉnh trạng thái của JSpinner và bảng chi tiết hóa đơn
         if (tbl_ShowAllBill_.getRowCount() > 0) {
             sp_SearchBill_.setEnabled(true);
             sp_SearchBill_.setValue(0);
@@ -472,7 +480,6 @@ public class HistoryView extends javax.swing.JPanel {
             clearBillDetailTable();
             lbl_TitleBillDetail.setText("Không có hóa đơn để xem chi tiết");
         }
-        updateTotalMoneyLabel();
     }
 
     // Cập nhật bảng hóa đơn dựa trên giá trị của ComboBox
@@ -483,18 +490,16 @@ public class HistoryView extends javax.swing.JPanel {
             cld_SearchBill_.setDate(null);
             cbx_SearchBill_.setSelectedIndex(2);
             loadBillDataByDate(today, 1);
-        }else if (cbx_SearchBill_.getSelectedIndex() == 1) {
-            // Ngày hôm qua
+        } else if (cbx_SearchBill_.getSelectedIndex() == 1) {
             calendar.add(Calendar.DAY_OF_MONTH, -1);
             cld_SearchBill_.setDate(calendar.getTime());
             lbl_TitleBill.setText("Hóa Đơn Của Ngày Hôm Qua");
+            loadBillDataByDate(calendar.getTime(), 0);
         } else if (cbx_SearchBill_.getSelectedIndex() == 0) {
-            // Ngày hôm nay
             cld_SearchBill_.setDate(today);
             lbl_TitleBill.setText("Hóa Đơn Của Ngày Hôm Nay");
             loadBillDataByDate(today, 0);
         }
-        
 
         if (tbl_ShowAllBill_.getRowCount() > 0) {
             sp_SearchBill_.setEnabled(true);
@@ -506,7 +511,6 @@ public class HistoryView extends javax.swing.JPanel {
             clearBillDetailTable();
             lbl_TitleBillDetail.setText("Không có hóa đơn để xem chi tiết");
         }
-        updateTotalMoneyLabel();
     }
 
     // Cộng tổng tiền các hóa đơn trên bản và hiển thị
@@ -524,15 +528,13 @@ public class HistoryView extends javax.swing.JPanel {
         for (int i = 0; i < model.getRowCount(); i++) {
             // Lấy giá trị tại cột index 4 (cột số tiền)
             Object value = model.getValueAt(i, 4);
-            if (value != null) {
-                try {
-                    // Chuyển đổi giá trị thành số nguyên và cộng vào tổng
-                    int amount = Integer.parseInt(levanan.formatMoney(value, 0));
-                    totalAmount += amount;
-                } catch (NumberFormatException e) {
-                    // Xử lý ngoại lệ nếu giá trị không phải là số
-                    System.err.println("Giá trị không hợp lệ tại hàng " + i + ": " + value);
-                }
+            boolean status = (boolean) model.getValueAt(i, 5);
+            if (value != null && status != false) {
+                // Chuyển đổi giá trị thành số nguyên và cộng vào tổng
+                int amount = Integer.parseInt(levanan.formatMoney(value, 0));
+                totalAmount += amount;
+                // Xử lý ngoại lệ nếu giá trị không phải là số
+                System.err.println("Giá trị không hợp lệ tại hàng " + i + ": " + value);
             }
         }
 
@@ -545,8 +547,9 @@ public class HistoryView extends javax.swing.JPanel {
 
     // Tải dữ liệu hóa đơn vào bảng theo ngày đã chọn
     private void loadBillDataByDate(Date selectedDate, int choice) {
+        loadBillList(); // Tải lại dữ liệu mới nhất
         DefaultTableModel model = (DefaultTableModel) tbl_ShowAllBill_.getModel();
-        model.setRowCount(0); // Xóa dữ liệu hiện có
+        model.setRowCount(0);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String selectedDateStr = (selectedDate != null) ? sdf.format(selectedDate) : null;
@@ -569,6 +572,7 @@ public class HistoryView extends javax.swing.JPanel {
             }
         }
         tbl_ShowAllBill_.setModel(model);
+        updateTotalMoneyLabel();
     }
 
     // Tải dữ liệu chi tiết hóa đơn vào bảng

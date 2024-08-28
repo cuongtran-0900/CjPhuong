@@ -43,7 +43,7 @@ public final class SaleView extends javax.swing.JPanel {
         txt_CashChange.setEditable(false);
         txt_TotalAmount.setEditable(false);
         levanan.clearData(tbl_Cart);
-        loadProductsToPanel(Jpn_Product, (DefaultTableModel) tbl_Cart.getModel());
+        loadProductsToPanel(pn_Product, (DefaultTableModel) tbl_Cart.getModel());
         BranchName = branch;
     }
     public LeVanAn levanan = new LeVanAn();
@@ -154,7 +154,7 @@ public final class SaleView extends javax.swing.JPanel {
     }
 
     public void loadProductsToPanel(JPanel jPanel, DefaultTableModel tableModel) {
-        Jpn_Product.removeAll();
+        pn_Product.removeAll();
 
         jPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -203,11 +203,16 @@ public final class SaleView extends javax.swing.JPanel {
                 int column = e.getColumn();
                 // Kiểm tra nếu cột thay đổi là cột số lượng
                 if (column == 3) {
+                    String ProductID = "";
+                    ProductID = (String) tbl_Cart.getValueAt(row, 0);
                     int quantity = (int) tbl_Cart.getValueAt(row, column);
                     // Nếu số lượng hợp lệ, cập nhật thành tiền
                     int price = UndomoneyFormat((String) tbl_Cart.getValueAt(row, 2));
                     int totalprice = quantity * price;
                     tbl_Cart.setValueAt(moneyFormat.format(totalprice), row, 4); // Cập nhật thành tiền
+                    if("MP01".equals(ProductID)){
+                        applyDiscount(row);
+                    }
                     updateTotalAmount(); // Cập nhật tổng tiền
                 }
             }
@@ -391,10 +396,12 @@ public final class SaleView extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 10);
         add(Jpn_Product, gridBagConstraints);
 
-        java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
-        jPanel1Layout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0};
-        jPanel1Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
-        Jpn_InfoContaint.setLayout(jPanel1Layout);
+        pn_Pay.setBackground(new java.awt.Color(28, 61, 90));
+        pn_Pay.setMaximumSize(new java.awt.Dimension(378, 353));
+        pn_Pay.setLayout(new java.awt.GridBagLayout());
+
+        txt_TotalAmount.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txt_TotalAmount.setForeground(new java.awt.Color(255, 0, 0));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -438,6 +445,7 @@ public final class SaleView extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
         Jpn_InfoContaint.add(jLabel4, gridBagConstraints);
 
+        txt_CustomerCash.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         txt_CustomerCash.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_CustomerCashActionPerformed(evt);
@@ -467,7 +475,9 @@ public final class SaleView extends javax.swing.JPanel {
         gridBagConstraints.ipady = 25;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
-        Jpn_InfoContaint.add(jLabel5, gridBagConstraints);
+        pn_Pay.add(jLabel5, gridBagConstraints);
+
+        txt_CashChange.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
@@ -478,7 +488,8 @@ public final class SaleView extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         Jpn_InfoContaint.add(txt_CashChange, gridBagConstraints);
 
-        cbo_OptionPayment.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tiền Mặt", "Chuyển Khoản", " " }));
+        cbo_OptionPayment.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        cbo_OptionPayment.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TIỀN MẶT", "CHUYỂN KHOẢN" }));
         cbo_OptionPayment.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbo_OptionPaymentActionPerformed(evt);
@@ -548,8 +559,6 @@ public final class SaleView extends javax.swing.JPanel {
         tbl_Cart.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
                 {null, null, null, null, null}
             },
             new String [] {
@@ -560,8 +569,15 @@ public final class SaleView extends javax.swing.JPanel {
                 java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
+                false, false, false, true, false
+            };
+            boolean[] canEdit = new boolean [] {
                 false, true, false, true, true
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
@@ -599,8 +615,6 @@ public final class SaleView extends javax.swing.JPanel {
             payment();
             btn_ResetActionPerformed(null);
         }
-        
-
     }//GEN-LAST:event_btn_SaveActionPerformed
 
     private void btn_ResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ResetActionPerformed
