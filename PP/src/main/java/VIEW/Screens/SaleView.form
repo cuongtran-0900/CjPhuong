@@ -355,26 +355,11 @@
             </Property>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="5" rowCount="2">
-                <Column editable="false" title="M&#xe3; M&#xf3;n &#x102;n" type="java.lang.Object">
-                  <Data value="MC001"/>
-                  <Data value="MC002"/>
-                </Column>
-                <Column editable="false" title="T&#xea;n M&#xf3;n" type="java.lang.Object">
-                  <Data value="B&#xe1;nh cu&#x1ed1;n"/>
-                  <Data value="B&#xe1;nh &#x1b0;&#x1edb;t"/>
-                </Column>
-                <Column editable="false" title="&#x110;&#x1a1;n Gi&#xe1;" type="java.lang.Object">
-                  <Data value="25,000&#x111;"/>
-                  <Data value="250,000&#x111;"/>
-                </Column>
-                <Column editable="true" title="S&#x1ed1; L&#x1b0;&#x1ee3;ng" type="java.lang.Object">
-                  <Data value="2"/>
-                  <Data value="1"/>
-                </Column>
-                <Column editable="false" title="Th&#xe0;nh Ti&#x1ec1;n" type="java.lang.Object">
-                  <Data value="50,000&#x111;"/>
-                  <Data value="25,000&#x111;"/>
-                </Column>
+                <Column editable="false" title="M&#xe3; M&#xf3;n &#x102;n" type="java.lang.String"/>
+                <Column editable="false" title="T&#xea;n M&#xf3;n" type="java.lang.String"/>
+                <Column editable="false" title="&#x110;&#x1a1;n Gi&#xe1;" type="java.lang.Integer"/>
+                <Column editable="true" title="S&#x1ed1; L&#x1b0;&#x1ee3;ng" type="java.lang.Integer"/>
+                <Column editable="false" title="Th&#xe0;nh Ti&#x1ec1;n" type="java.lang.Integer"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor" postCode="// Khai b&#xe1;o v&#xe0; kh&#x1edf;i t&#x1ea1;o centerRenderer&#xa;DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();&#xa;centerRenderer.setHorizontalAlignment(javax.swing.JLabel.CENTER);&#xa;// &#x110;&#x1eb7;t renderer cho t&#x1ea5;t c&#x1ea3; c&#xe1;c c&#x1ed9;t &#x111;&#x1ec3; c&#x103;n gi&#x1eef;a&#xa;for (int i = 0; i &lt; tbl_Cart.getColumnModel().getColumnCount(); i++) {&#xa;    tbl_Cart.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);&#xa;}&#xa;// Khai b&#xe1;o v&#xe0; kh&#x1edf;i t&#x1ea1;o leftRenderer cho c&#x1ed9;t th&#x1ee9; 2 (index 1)&#xa;DefaultTableCellRenderer leftRenderer = new DefaultTableCellRenderer();&#xa;leftRenderer.setHorizontalAlignment(javax.swing.JLabel.LEFT);&#xa;tbl_Cart.getColumnModel().getColumn(1).setCellRenderer(leftRenderer);">
