@@ -89,7 +89,7 @@ public class BillDAO extends DatabaseConnection {
             st1.setInt(3, bill.getBillTotalAmount());
             st1.setString(4, bill.getBillNote());
             st1.setDate(5, new java.sql.Date(bill.getCreateDate().getTime()));
-            st1.setInt(6, bill.getBillStatus());
+            st1.setInt(6, 1);
             st1.setInt(7, bill.getBillpayment());  // Lưu giá trị billPayment
 
             int row1 = st1.executeUpdate();
