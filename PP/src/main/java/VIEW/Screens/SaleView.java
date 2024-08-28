@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package UI.Main_Functional_Requirements;
+package VIEW.Screens;
 
 import DAO.*;
 import javax.swing.table.DefaultTableModel;
@@ -32,21 +32,24 @@ import UX.LeVanAn;
  *
  * @author levan
  */
-public final class Main_Sale extends javax.swing.JPanel {
+public final class SaleView extends javax.swing.JPanel {
 
     /**
      * Creates new form Dashboard
      */
-    public Main_Sale() {
+    public SaleView(String branch) {
         initComponents();
         tableEvent();
         txt_CashChange.setEditable(false);
         txt_TotalAmount.setEditable(false);
         levanan.clearData(tbl_Cart);
         loadProductsToPanel(Jpn_Product, (DefaultTableModel) tbl_Cart.getModel());
+        BranchName = branch;
     }
     public LeVanAn levanan = new LeVanAn();
     DecimalFormat moneyFormat = new DecimalFormat("#,### đ");
+    
+    public String BranchName = "";
 
     public int UndomoneyFormat(String formatted) {
         String numericString = formatted.replaceAll("[^0-9]", ""); // Kết quả sẽ là "1234567"
@@ -292,13 +295,14 @@ public final class Main_Sale extends javax.swing.JPanel {
         if (tbl_Cart.getRowCount() != 0) {
             Bill bill = new Bill();
             bill.setBillID(billdao.NewBillID());
-            bill.setAccountID("CN01");
+            bill.setAccountID("CN01"); //BrachName
             bill.setBillNote("none");
             bill.setCreateDate(Timestamp.valueOf(TimeNow()));
             bill.setBillTotalAmount(UndomoneyFormat(txt_TotalAmount.getText()));
             bill.setBillpayment(cbo_OptionPayment.getSelectedIndex());
 
             List<BillDetail> billdetailList = new ArrayList<>();
+            
 
             for (int i = 0; i < tbl_Cart.getRowCount(); i++) {
                 BillDetail billdetail = new BillDetail();

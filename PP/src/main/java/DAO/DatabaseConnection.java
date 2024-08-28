@@ -11,7 +11,7 @@ public class DatabaseConnection {
     protected Connection con = null;
     private static final String url = "jdbc:sqlserver://localhost:1433;databaseName=PP;encrypt=false";
     private static final String user = "sa";
-    private static final String pass = "12345678";
+    private static final String pass = "123456";
     public DatabaseConnection(){
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
