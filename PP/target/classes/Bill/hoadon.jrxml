@@ -35,32 +35,80 @@
 		</element>
 	</title>
 	<columnHeader height="30" splitType="Stretch">
-		<element kind="staticText" uuid="dd5be68d-53e2-4c2d-87e1-98849975464a" x="0" y="0" width="142" height="30" fontName="DejaVu Sans">
+		<element kind="staticText" uuid="dd5be68d-53e2-4c2d-87e1-98849975464a" x="0" y="0" width="142" height="30" fontName="DejaVu Sans" hTextAlign="Left">
 			<text><![CDATA[Món Ăn]]></text>
+			<box padding="9">
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
 		</element>
-		<element kind="staticText" uuid="c6c70420-9d3c-4969-b553-f63ab129dfa1" x="142" y="0" width="138" height="30" fontName="DejaVu Sans">
+		<element kind="staticText" uuid="c6c70420-9d3c-4969-b553-f63ab129dfa1" x="142" y="0" width="138" height="30" fontName="DejaVu Sans" hTextAlign="Left">
 			<text><![CDATA[Số Lượng]]></text>
+			<box padding="9">
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
 		</element>
-		<element kind="staticText" uuid="38c5318c-17ad-4295-82f7-fecc6d950546" x="280" y="0" width="138" height="30" fontName="DejaVu Sans">
+		<element kind="staticText" uuid="38c5318c-17ad-4295-82f7-fecc6d950546" x="280" y="0" width="138" height="30" fontName="DejaVu Sans" hTextAlign="Left">
 			<text><![CDATA[Đơn Giá]]></text>
+			<box padding="9">
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
 		</element>
-		<element kind="staticText" uuid="52cb7519-bae1-4029-a419-8fb0405a46b7" x="418" y="0" width="138" height="30" fontName="DejaVu Sans">
+		<element kind="staticText" uuid="52cb7519-bae1-4029-a419-8fb0405a46b7" x="418" y="0" width="138" height="30" fontName="DejaVu Sans" hTextAlign="Left">
 			<text><![CDATA[Thành Tiền]]></text>
+			<box padding="9">
+				<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
 		</element>
 	</columnHeader>
 	<detail>
-		<band height="66" splitType="Stretch">
-			<element kind="textField" uuid="6ecd82ab-604f-443f-99d6-05f0689b86a7" x="1" y="0" width="141" height="30" fontName="DejaVu Sans">
+		<band height="30" splitType="Stretch">
+			<element kind="textField" uuid="6ecd82ab-604f-443f-99d6-05f0689b86a7" x="0" y="0" width="142" height="30" fontName="DejaVu Sans" hTextAlign="Left">
 				<expression><![CDATA[$F{productName}]]></expression>
+				<box padding="9">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 			</element>
-			<element kind="textField" uuid="79b0e208-3d0a-4a94-8b0d-47aaebfcf1c2" x="142" y="0" width="138" height="30" fontName="DejaVu Sans">
+			<element kind="textField" uuid="79b0e208-3d0a-4a94-8b0d-47aaebfcf1c2" x="142" y="0" width="138" height="30" fontName="DejaVu Sans" hTextAlign="Left">
 				<expression><![CDATA[$F{quantity}]]></expression>
+				<box padding="9">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 			</element>
-			<element kind="textField" uuid="9fcbc4ed-e3f8-4f96-961b-463739379685" x="280" y="0" width="138" height="30" fontName="DejaVu Sans">
+			<element kind="textField" uuid="9fcbc4ed-e3f8-4f96-961b-463739379685" x="280" y="0" width="138" height="30" fontName="DejaVu Sans" hTextAlign="Left">
 				<expression><![CDATA[$F{productPrice}]]></expression>
+				<box padding="9">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 			</element>
-			<element kind="textField" uuid="7d7437f2-8958-41b0-bd6c-b6af94ef7fbb" x="418" y="0" width="138" height="30" fontName="DejaVu Sans">
+			<element kind="textField" uuid="7d7437f2-8958-41b0-bd6c-b6af94ef7fbb" x="418" y="0" width="138" height="30" fontName="DejaVu Sans" hTextAlign="Left">
 				<expression><![CDATA[$F{totalPrice}]]></expression>
+				<box padding="9">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 			</element>
 		</band>
 	</detail>

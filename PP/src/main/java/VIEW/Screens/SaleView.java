@@ -27,24 +27,23 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.event.TableModelEvent;
 import UX.LeVanAn;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.Timer;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
 import javax.swing.table.DefaultTableCellRenderer;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.printing.PDFPrintable;
 
 /**
  *
@@ -352,9 +351,10 @@ public final class SaleView extends javax.swing.JPanel {
             }
             bill.setBillDetailList(billdetailList);
             int result = billdao.save(bill);
-            PrintBill(bill);
+
             if (result > 0) {
                 JOptionPane.showMessageDialog(null, "Thanh toán thành công");
+                ExtrackBillPDF(bill);
                 ((DefaultTableModel) tbl_Cart.getModel()).setRowCount(0); // Làm rỗng giỏ hàng
             } else {
                 JOptionPane.showMessageDialog(this, "Thanh Toán thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -365,7 +365,7 @@ public final class SaleView extends javax.swing.JPanel {
 
     }
 
-    private void PrintBill(Bill bill) {
+    private void ExtrackBillPDF(Bill bill) {
         try {
             // Đường dẫn đến file báo cáo .jasper đã biên dịch
             String jasperFilePath = "src\\main\\resources\\Bill\\hoadon.jasper";
@@ -379,7 +379,6 @@ public final class SaleView extends javax.swing.JPanel {
             parameters.put("createDate", bill.getCreateDate());
             parameters.put("billID", bill.getBillID());
             parameters.put("billTotalAmount", bill.getBillTotalAmount());
-            
 
             // Tạo báo cáo
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperFilePath, parameters, dataSource);
@@ -393,6 +392,54 @@ public final class SaleView extends javax.swing.JPanel {
         } catch (JRException e) {
             e.printStackTrace();
         }
+    }
+
+    private void PrintBill() throws PrinterException {
+        try {
+            // Đường dẫn đến file PDF bạn muốn in
+            File pdfFile = new File("src\\main\\resources\\Bill\\report.pdf");
+
+            // Tạo đối tượng PDFBox PDDocument từ file
+            PDDocument document = PDDocument.load(pdfFile);
+
+            // Tạo đối tượng PrinterJob
+            PrinterJob printerJob = PrinterJob.getPrinterJob();
+
+            // Cài đặt máy in ngoài
+            PrintService[] printServices = PrintServiceLookup.lookupPrintServices(null, null);
+            PrintService selectedPrintService = null;
+
+            // Lựa chọn máy in
+            for (PrintService printService : printServices) {
+                if (printService.getName().contains("Tên máy in của bạn")) { // Thay "Tên máy in của bạn" bằng tên máy in thực tế
+                    selectedPrintService = printService;
+                    break;
+                }
+            }
+
+            if (selectedPrintService == null) {
+                System.out.println("Không tìm thấy máy in.");
+                document.close();
+                return;
+            }
+
+            // Cài đặt máy in cho PrinterJob
+            printerJob.setPrintService(selectedPrintService);
+
+            // Cài đặt Printable cho PrinterJob
+            PDFPrintable printable = new PDFPrintable(document);
+            printerJob.setPrintable(printable);
+
+            // Thực hiện in
+            printerJob.print();
+
+            // Đóng tài liệu PDF
+            document.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
