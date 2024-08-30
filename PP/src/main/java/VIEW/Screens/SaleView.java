@@ -657,8 +657,9 @@ public final class SaleView extends javax.swing.JPanel {
 
     private void btn_SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SaveActionPerformed
         // TODO add your handling code here:
+        int CustomerCash =  UndomoneyFormat(txt_CashChange.getText());
         if(cbo_OptionPayment.getSelectedIndex()==0){
-            if (txt_CashChange.getText().isBlank() || UndomoneyFormat(txt_CustomerCash.getText()) < UndomoneyFormat(txt_TotalAmount.getText())) {
+            if (txt_CashChange.getText().isBlank() || CustomerCash < UndomoneyFormat(txt_TotalAmount.getText())) {
             JOptionPane.showMessageDialog(this, "Số tiền trả khách không được trống hoặc âm");
             levanan.clearData(txt_CustomerCash);
         } else {
