@@ -26,6 +26,10 @@ public class Bill {
         this.billStatus = billStatus;
     }
 
+    
+
+    
+
     public String getBillID() {
         return billID;
     }
@@ -66,27 +70,6 @@ public class Bill {
         this.accountID = accountID;
     }
 
-    public Timestamp getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Timestamp createDate) {
-        this.createDate = createDate;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Bill{" +
-                "billID='" + billID + '\'' +
-                ", billTotalAmount=" + billTotalAmount +
-                ", billDetailList=" + billDetailList +
-                ", billNote='" + billNote + '\'' +
-                ", accountID='" + accountID + '\'' +
-                ", createDate=" + createDate +
-                '}';
-    }
-
     public int getBillStatus() {
         return billStatus;
     }
@@ -101,5 +84,13 @@ public class Bill {
 
     public void setBillpayment(int billpayment) {
         this.billpayment = billpayment;
+    }
+
+    public Timestamp getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Timestamp createDate) {
+        this.createDate = createDate;
     }
 }

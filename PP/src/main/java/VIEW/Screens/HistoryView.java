@@ -427,7 +427,7 @@ public class HistoryView extends javax.swing.JPanel {
     private void updateSpinner() {
         int rowCount = tbl_ShowAllBill_.getRowCount();
         int selectedIndex = (int) sp_SearchBill_.getValue();
-        
+        tbl_ShowAllBill_.setRowSelectionInterval(selectedIndex-1, selectedIndex-1);
         if (selectedIndex <= 0) {
             // Xóa bảng chi tiết hóa đơn nếu số thứ tự không hợp lệ
             clearBillDetailTable();

@@ -30,6 +30,9 @@ CREATE TABLE Bill (
 	billStatus BIT NOT NULL
 );
 
+ALTER TABLE Bill
+ALTER COLUMN createDate DateTime NOT NULL;
+
 -- Tạo bảng BillDetail
 CREATE TABLE BillDetail (
     billID VARCHAR(10) NOT NULL,

@@ -1,0 +1,75 @@
+<!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 7.0.0-b478feaa9aab4375eba71de77b4ca138ad2f62aa  -->
+<jasperReport name="Blank_A4_1" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b090e8b9-6ce4-4ab0-b4c6-8af9b71e8a9c">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="accountID" class="java.lang.String"/>
+	<parameter name="createDate" class="java.sql.Timestamp"/>
+	<parameter name="billID" class="java.lang.String"/>
+	<parameter name="billTotalAmount" class="java.lang.Integer"/>
+	<query language="sql"><![CDATA[]]></query>
+	<field name="productName" class="java.lang.String"/>
+	<field name="quantity" class="java.lang.Integer"/>
+	<field name="productPrice" class="java.lang.Integer"/>
+	<field name="totalPrice" class="java.lang.Integer"/>
+	<background splitType="Stretch"/>
+	<title height="168" splitType="Stretch">
+		<element kind="staticText" uuid="4df332c3-1606-4ede-833a-29ed22ecb60b" x="0" y="30" width="100" height="30" fontName="DejaVu Sans">
+			<text><![CDATA[Thời Gian :]]></text>
+		</element>
+		<element kind="staticText" uuid="69c55cef-67f9-479c-b82f-4b33393e51cd" x="0" y="88" width="100" height="30" fontName="DejaVu Sans">
+			<text><![CDATA[Chi Nhánh : ]]></text>
+		</element>
+		<element kind="staticText" uuid="42069391-9f48-47b1-9d23-d9ab541e6c9f" x="0" y="138" width="100" height="30" fontName="DejaVu Sans">
+			<text><![CDATA[Hóa Đơn :]]></text>
+		</element>
+		<element kind="staticText" uuid="11577223-202d-4296-b86f-ca6bb1536bce" x="180" y="-20" width="167" height="30" fontName="DejaVu Sans" fontSize="16.0" hTextAlign="Center">
+			<text><![CDATA[HÓA ĐƠN]]></text>
+		</element>
+		<element kind="textField" uuid="a7e364fd-70d8-4758-919a-aa153c005739" x="130" y="30" width="180" height="30" fontName="DejaVu Sans">
+			<expression><![CDATA[$P{createDate}]]></expression>
+		</element>
+		<element kind="textField" uuid="04e53357-c424-4ca6-82fb-302373cef889" x="130" y="88" width="180" height="30" fontName="DejaVu Sans">
+			<expression><![CDATA[$P{accountID}]]></expression>
+		</element>
+		<element kind="textField" uuid="7312141b-92d6-4886-80b8-de48cb6901d6" x="130" y="138" width="180" height="30" fontName="DejaVu Sans">
+			<expression><![CDATA[$P{billID}]]></expression>
+		</element>
+	</title>
+	<columnHeader height="30" splitType="Stretch">
+		<element kind="staticText" uuid="dd5be68d-53e2-4c2d-87e1-98849975464a" x="0" y="0" width="142" height="30" fontName="DejaVu Sans">
+			<text><![CDATA[Món Ăn]]></text>
+		</element>
+		<element kind="staticText" uuid="c6c70420-9d3c-4969-b553-f63ab129dfa1" x="142" y="0" width="138" height="30" fontName="DejaVu Sans">
+			<text><![CDATA[Số Lượng]]></text>
+		</element>
+		<element kind="staticText" uuid="38c5318c-17ad-4295-82f7-fecc6d950546" x="280" y="0" width="138" height="30" fontName="DejaVu Sans">
+			<text><![CDATA[Đơn Giá]]></text>
+		</element>
+		<element kind="staticText" uuid="52cb7519-bae1-4029-a419-8fb0405a46b7" x="418" y="0" width="138" height="30" fontName="DejaVu Sans">
+			<text><![CDATA[Thành Tiền]]></text>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="66" splitType="Stretch">
+			<element kind="textField" uuid="6ecd82ab-604f-443f-99d6-05f0689b86a7" x="1" y="0" width="141" height="30" fontName="DejaVu Sans">
+				<expression><![CDATA[$F{productName}]]></expression>
+			</element>
+			<element kind="textField" uuid="79b0e208-3d0a-4a94-8b0d-47aaebfcf1c2" x="142" y="0" width="138" height="30" fontName="DejaVu Sans">
+				<expression><![CDATA[$F{quantity}]]></expression>
+			</element>
+			<element kind="textField" uuid="9fcbc4ed-e3f8-4f96-961b-463739379685" x="280" y="0" width="138" height="30" fontName="DejaVu Sans">
+				<expression><![CDATA[$F{productPrice}]]></expression>
+			</element>
+			<element kind="textField" uuid="7d7437f2-8958-41b0-bd6c-b6af94ef7fbb" x="418" y="0" width="138" height="30" fontName="DejaVu Sans">
+				<expression><![CDATA[$F{totalPrice}]]></expression>
+			</element>
+		</band>
+	</detail>
+	<columnFooter height="53">
+		<element kind="staticText" uuid="0bf94c55-9f36-43e1-bc42-9022f7123348" x="0" y="10" width="80" height="30" fontName="DejaVu Sans">
+			<text><![CDATA[Tổng Tiền :]]></text>
+		</element>
+		<element kind="textField" uuid="9acc66a5-9f29-4258-95fb-6953c0ec9fb4" x="130" y="10" width="179" height="30" fontName="DejaVu Sans">
+			<expression><![CDATA[$P{billTotalAmount}]]></expression>
+		</element>
+	</columnFooter>
+</jasperReport>

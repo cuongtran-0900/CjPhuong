@@ -27,7 +27,24 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.event.TableModelEvent;
 import UX.LeVanAn;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.Timer;
 import javax.swing.table.DefaultTableCellRenderer;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 /**
  *
@@ -49,26 +66,26 @@ public final class SaleView extends javax.swing.JPanel {
     }
     public LeVanAn levanan = new LeVanAn();
     DecimalFormat moneyFormat = new DecimalFormat("#,### đ");
-    
     public String BranchName = "";
+    public String TimeNow;
 
     public int UndomoneyFormat(String formatted) {
-        String numericString = formatted.replaceAll("[^0-9]", ""); // Kết quả sẽ là "1234567"
+        String numericString = formatted.replaceAll("[^0-9.-]", ""); // Kết quả sẽ là "1234567"
         // Chuyển đổi chuỗi số thành int
         int originalValue = Integer.parseInt(numericString);
         return originalValue;
     }
-    
+
     public static int roundUpToNearest(int number, int multiple) {
         return (int) (Math.ceil((int) number / multiple) * multiple);
     }
+
+    private boolean isUpdatingTable = false;
 
     BillDAO billdao = new BillDAO();
     List<Bill> billList = billdao.loadAllBillData();
     ProductDAO productdao = new ProductDAO();
     List<Product> ProductList = productdao.loadAllProductData();
-
-    private boolean isUpdatingTable = false;
 
     private JPanel createProduct(Product product, DefaultTableModel tableModel) {
         String pathProductImage = "src/main/resources/Image_product/";
@@ -114,11 +131,11 @@ public final class SaleView extends javax.swing.JPanel {
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 1.0;
-        gbc.weighty = 0.7;
+        gbc.weighty = 0.6;
         panel.add(imgLabel, gbc);
 
         gbc.gridy = 1;
-        gbc.weighty = 0.1;
+        gbc.weighty = 0.2;
         panel.add(nameLabel, gbc);
 
         gbc.gridy = 2;
@@ -187,8 +204,8 @@ public final class SaleView extends javax.swing.JPanel {
             }
         }
 
-        int totalHeight = (280 + 5) * (currentRow + 1);
-        int totalWidth = (100 + 5) * maxProductsPerRow;
+        int totalHeight = (350 + 5) * (currentRow + 1);
+        int totalWidth = (250 + 5) * maxProductsPerRow;
 
         jPanel.setPreferredSize(new Dimension(totalWidth, totalHeight));
 
@@ -211,14 +228,13 @@ public final class SaleView extends javax.swing.JPanel {
                     int price = UndomoneyFormat((String) tbl_Cart.getValueAt(row, 2));
                     int totalprice = quantity * price;
                     tbl_Cart.setValueAt(moneyFormat.format(totalprice), row, 4); // Cập nhật thành tiền
-                    if("MP01".equals(ProductID)){
+                    if ("MP01".equals(ProductID)) {
                         applyDiscount(row);
                     }
                     updateTotalAmount(); // Cập nhật tổng tiền
                 }
             }
         });
-        
 
     }
 
@@ -244,7 +260,7 @@ public final class SaleView extends javax.swing.JPanel {
                 int currentQuantity = (int) tbl_Cart.getValueAt(i, 3);
                 int newQuantity = currentQuantity + quantity;
                 totalprice = newQuantity * productPrice;
-                
+
                 isUpdatingTable = true;
                 tbl_Cart.setValueAt(newQuantity, i, 3); // Cập nhật số lượng
                 tbl_Cart.setValueAt(moneyFormat.format(totalprice), i, 4); // Cập nhật thành tiền
@@ -252,10 +268,10 @@ public final class SaleView extends javax.swing.JPanel {
                 productExists = true; // Đánh dấu sản phẩm đã tồn tại
 
                 // Kiểm tra và áp dụng giảm giá nếu mã sản phẩm là "MP001"
-                if ("MP01".equalsIgnoreCase(productID)  && newQuantity % 3 == 0) {
+                if ("MP01".equalsIgnoreCase(productID) && newQuantity % 3 == 0) {
                     applyDiscount(i);
                 }
-                
+
                 break;
             }
         }
@@ -279,7 +295,7 @@ public final class SaleView extends javax.swing.JPanel {
     private void applyDiscount(int rowIndex) {
         // Giả sử bạn muốn giảm giá cho hàng tại rowIndex
         int quantity = (int) tbl_Cart.getValueAt(rowIndex, 3);
-        int price = (int) UndomoneyFormat((String) tbl_Cart.getValueAt(rowIndex, 2)) ;
+        int price = (int) UndomoneyFormat((String) tbl_Cart.getValueAt(rowIndex, 2));
         double discountPrice = price - 0.7; // Giảm giá 0.7 cho ví dụ
 
         // Cập nhật giá thành sau khi giảm giá
@@ -291,10 +307,25 @@ public final class SaleView extends javax.swing.JPanel {
         updateTotalAmount();
     }
 
-    private String TimeNow() {
-        java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(System.currentTimeMillis());
-        String newTime = String.valueOf(currentTimestamp);
-        return newTime;
+    private static Timestamp TimeNow() {
+        // Tạo đối tượng Timestamp với thời gian hiện tại
+        Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+
+        // Định dạng Timestamp thành chuỗi theo định dạng mong muốn
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String formattedDate = sdf.format(currentTimestamp);
+
+        // Chuyển đổi chuỗi trở lại thành Timestamp
+        try {
+            // Chuyển chuỗi thành đối tượng Date
+            java.util.Date date = sdf.parse(formattedDate);
+            // Chuyển đổi đối tượng Date thành Timestamp
+            Timestamp TimeFinal = new Timestamp(date.getTime());
+            return TimeFinal;
+        } catch (ParseException e) {
+            return null;
+        }
+
     }
 
     public void payment() {
@@ -303,17 +334,16 @@ public final class SaleView extends javax.swing.JPanel {
             bill.setBillID(billdao.NewBillID());
             bill.setAccountID("CN01"); //BrachName
             bill.setBillNote("none");
-            bill.setCreateDate(Timestamp.valueOf(TimeNow()));
+            bill.setCreateDate(TimeNow());
             bill.setBillTotalAmount(UndomoneyFormat(txt_TotalAmount.getText()));
             bill.setBillpayment(cbo_OptionPayment.getSelectedIndex());
 
             List<BillDetail> billdetailList = new ArrayList<>();
-            
 
             for (int i = 0; i < tbl_Cart.getRowCount(); i++) {
                 BillDetail billdetail = new BillDetail();
-
                 billdetail.setProductID((String) tbl_Cart.getValueAt(i, 0));
+                billdetail.setProductName((String) tbl_Cart.getValueAt(i, 1));
                 billdetail.setProductPrice(UndomoneyFormat((String) tbl_Cart.getValueAt(i, 2)));
                 billdetail.setQuantity((int) tbl_Cart.getValueAt(i, 3));
                 billdetail.setTotalPrice(UndomoneyFormat((String) tbl_Cart.getValueAt(i, 4)));
@@ -322,6 +352,7 @@ public final class SaleView extends javax.swing.JPanel {
             }
             bill.setBillDetailList(billdetailList);
             int result = billdao.save(bill);
+            PrintBill(bill);
             if (result > 0) {
                 JOptionPane.showMessageDialog(null, "Thanh toán thành công");
                 ((DefaultTableModel) tbl_Cart.getModel()).setRowCount(0); // Làm rỗng giỏ hàng
@@ -332,6 +363,36 @@ public final class SaleView extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm ");
         }
 
+    }
+
+    private void PrintBill(Bill bill) {
+        try {
+            // Đường dẫn đến file báo cáo .jasper đã biên dịch
+            String jasperFilePath = "src\\main\\resources\\Bill\\hoadon.jasper";
+
+            // Tạo dữ liệu cho báo cáo (danh sách đối tượng Product trong ví dụ này)
+            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(bill.getBillDetailList());
+
+            // Tạo các tham số báo cáo nếu cần
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("accountID", bill.getAccountID());
+            parameters.put("createDate", bill.getCreateDate());
+            parameters.put("billID", bill.getBillID());
+            parameters.put("billTotalAmount", bill.getBillTotalAmount());
+            
+
+            // Tạo báo cáo
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperFilePath, parameters, dataSource);
+
+            // Xuất báo cáo ra file PDF
+            // Lưu file PDF tại đường dẫn tùy chỉnh
+            String outputPath = "src\\main\\resources\\Bill\\report.pdf";
+            JasperExportManager.exportReportToPdfFile(jasperPrint, outputPath);
+
+            System.out.println("Report generated successfully.");
+        } catch (JRException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -657,15 +718,16 @@ public final class SaleView extends javax.swing.JPanel {
 
     private void btn_SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SaveActionPerformed
         // TODO add your handling code here:
-        if(cbo_OptionPayment.getSelectedIndex()==0){
-            if (txt_CashChange.getText().isBlank() || UndomoneyFormat(txt_CustomerCash.getText()) < UndomoneyFormat(txt_TotalAmount.getText())) {
-            JOptionPane.showMessageDialog(this, "Số tiền trả khách không được trống hoặc âm");
-            levanan.clearData(txt_CustomerCash);
+
+        if (cbo_OptionPayment.getSelectedIndex() == 0) {
+            if (txt_CashChange.getText().isBlank() || UndomoneyFormat(txt_CashChange.getText()) < 0) {
+                JOptionPane.showMessageDialog(this, "Số tiền trả khách không được trống hoặc âm");
+                levanan.clearData(txt_CustomerCash);
+            } else {
+                payment();
+                btn_ResetActionPerformed(null);
+            }
         } else {
-            payment();
-            btn_ResetActionPerformed(null);
-        }
-        }else{
             payment();
             btn_ResetActionPerformed(null);
         }
@@ -679,8 +741,9 @@ public final class SaleView extends javax.swing.JPanel {
 
     private void txt_CustomerCashKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_CustomerCashKeyReleased
         // TODO add your handling code here:
-        String customerCash = "0";
-        if(txt_CustomerCash.getText().isBlank()){
+        String customerCash;
+
+        if (txt_CustomerCash.getText().isBlank()) {
             customerCash = "0";
         } else {
             customerCash = txt_CustomerCash.getText();
