@@ -53,6 +53,7 @@ public final class SaleView extends javax.swing.JPanel {
 
     /**
      * Creates new form Dashboard
+     * @param branch
      */
     public SaleView(String branch) {
         initComponents();
