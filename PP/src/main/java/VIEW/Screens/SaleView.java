@@ -34,6 +34,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -53,6 +55,7 @@ public final class SaleView extends javax.swing.JPanel {
 
     /**
      * Creates new form Dashboard
+     *
      * @param branch
      */
     public SaleView(String branch) {
@@ -328,7 +331,7 @@ public final class SaleView extends javax.swing.JPanel {
 
     }
 
-    public void payment() {
+    public void payment() throws PrinterException {
         if (tbl_Cart.getRowCount() != 0) {
             Bill bill = new Bill();
             bill.setBillID(billdao.NewBillID());
@@ -356,6 +359,7 @@ public final class SaleView extends javax.swing.JPanel {
             if (result > 0) {
                 JOptionPane.showMessageDialog(null, "Thanh toán thành công");
                 ExtrackBillPDF(bill);
+                PrintBill();
                 ((DefaultTableModel) tbl_Cart.getModel()).setRowCount(0); // Làm rỗng giỏ hàng
             } else {
                 JOptionPane.showMessageDialog(this, "Thanh Toán thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -388,8 +392,6 @@ public final class SaleView extends javax.swing.JPanel {
             // Lưu file PDF tại đường dẫn tùy chỉnh
             String outputPath = "src\\main\\resources\\Bill\\report.pdf";
             JasperExportManager.exportReportToPdfFile(jasperPrint, outputPath);
-
-            System.out.println("Report generated successfully.");
         } catch (JRException e) {
             e.printStackTrace();
         }
@@ -412,7 +414,7 @@ public final class SaleView extends javax.swing.JPanel {
 
             // Lựa chọn máy in
             for (PrintService printService : printServices) {
-                if (printService.getName().contains("Tên máy in của bạn")) { // Thay "Tên máy in của bạn" bằng tên máy in thực tế
+                if (printService.getName().contains("Canon LBP2900")) { // Thay "Tên máy in của bạn" bằng tên máy in thực tế
                     selectedPrintService = printService;
                     break;
                 }
@@ -431,6 +433,9 @@ public final class SaleView extends javax.swing.JPanel {
             PDFPrintable printable = new PDFPrintable(document);
             printerJob.setPrintable(printable);
 
+            // Cài đặt số bản sao
+            printerJob.setCopies(2); // Số bản sao bạn muốn in
+
             // Thực hiện in
             printerJob.print();
 
@@ -440,7 +445,6 @@ public final class SaleView extends javax.swing.JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     /**
@@ -772,11 +776,19 @@ public final class SaleView extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Số tiền trả khách không được trống hoặc âm");
                 levanan.clearData(txt_CustomerCash);
             } else {
-                payment();
+                try {
+                    payment();
+                } catch (PrinterException ex) {
+                    Logger.getLogger(SaleView.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 btn_ResetActionPerformed(null);
             }
         } else {
-            payment();
+            try {
+                payment();
+            } catch (PrinterException ex) {
+                Logger.getLogger(SaleView.class.getName()).log(Level.SEVERE, null, ex);
+            }
             btn_ResetActionPerformed(null);
         }
     }//GEN-LAST:event_btn_SaveActionPerformed
